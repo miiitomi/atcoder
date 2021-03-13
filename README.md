@@ -1,2 +1,2 @@
 # AtCoder
- - AtCoderの問題をC++で解いてACしたコード.
+AtCoderの問題をC++で解く.
