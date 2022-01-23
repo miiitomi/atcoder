@@ -2,7 +2,6 @@
 .DS_Store
 *.out
 *.env
-*.sh
 samples
 *.dSYM
 *.txt
