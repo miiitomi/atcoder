@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "vector": "cpp",
+        "random": "cpp",
+        "utility": "cpp"
+    },
+    "jupyter.jupyterServerType": "local"
+}

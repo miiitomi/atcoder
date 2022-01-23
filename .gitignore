@@ -1,8 +1,6 @@
-.vscode/
 .DS_Store
 *.out
 *.env
 samples
 *.dSYM
 *.txt
-!tasks.json
