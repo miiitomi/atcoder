@@ -5,61 +5,36 @@ typedef long long ll;
 int main() {
     int Q;
     cin >> Q;
-
-    map<ll, ll> M;
+    multiset<ll> A;
 
     for (int i = 0; i < Q; i++) {
         ll n, x, k;
         cin >> n >> x;
 
         if (n == 1) {
-            M[x]++;
-            continue;
-        }
-
-        cin >> k;
-        auto iter = M.lower_bound(x);
-
-        if (n == 2) {
-            if (iter->first > x || iter == M.end()) {
-                if (iter == M.begin()) {
-                    cout << -1 << endl;
-                    continue;
-                }
-                iter--;
-            }
-
-            bool b = true;
-            while (iter->second < k) {
-                k -= iter->second;
-                if (iter == M.begin()) {
-                    b = false;
+            A.insert(x);
+        } else if (n == 2) {
+            cin >> k;
+            auto iter = A.upper_bound(x);
+            bool exists = true;
+            for (int j = 0; j < k; j++) {
+                if (iter == A.begin()) {
+                    exists = false;
                     break;
                 }
                 iter--;
             }
-
-            if (b) cout << iter->first << endl;
+            if (exists) cout << *iter << endl;
             else cout << -1 << endl;
-        }
-
-        if (n == 3) {
-            if (iter == M.end()) {
-                cout << -1 << endl;
-                continue;
-            }
-
-            bool b = true;
-            while (iter->second < k) {
-                k -= (iter->second);
+        } else if (n == 3) {
+            cin >> k;
+            auto iter = A.lower_bound(x);
+            for (int j = 0; j < k-1; j++) {
+                if (iter == A.end()) break;
                 iter++;
-                if (iter == M.end()) {
-                    b = false;
-                    break;
-                }
             }
-            if (b) cout << iter->first << endl;
-            else cout << -1 << endl;
+            if (iter == A.end()) cout << -1 << endl;
+            else cout << *iter << endl;
         }
     }
 }
