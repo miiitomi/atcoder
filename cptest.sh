@@ -14,5 +14,7 @@ if [ ! -e ${test_dir} ]; then
     ~/miniforge3/bin/oj dl -d ${test_dir} ${url}
 fi
 
+export PATH=/usr/bin:$PATH
+
 # test
 /opt/homebrew/bin/g++ -std=c++14 ${file} && ~/miniforge3/bin/oj test -c "./a.out" -d ${test_dir}
