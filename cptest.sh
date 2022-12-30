@@ -7,7 +7,13 @@ file=$3
 relative_file_dir_name=$4
 contest_name=${relative_file_dir_name##*/}
 test_dir=samples/${contest_name}/${problem_name}
-url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_name}
+
+if [ ${contest_name} = tessoku-book ];
+then
+    url=https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_${problem_name}
+else
+    url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_name}
+fi
 
 # make sample directory
 if [ ! -e ${test_dir} ]; then
@@ -17,4 +23,4 @@ fi
 export PATH=/usr/bin:$PATH
 
 # test
-/opt/homebrew/bin/g++ -std=c++14 ${file} && ~/miniforge3/bin/oj test -c "./a.out" -d ${test_dir}
+g++ -std=c++14 ${file} && ~/miniforge3/bin/oj test -c "./a.out" -d ${test_dir}
