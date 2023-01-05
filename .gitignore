@@ -5,3 +5,4 @@ samples
 *.dSYM
 *.txt
 *.pdf
+c_cpp_properties.json
