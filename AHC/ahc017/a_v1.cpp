@@ -1,4 +1,4 @@
-// Kずつランダムに工事する.
+// 各回で最小個の工事回数をランダムに行っていく.
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -11,6 +11,10 @@ int main() {
     cin >> D;
     int K;  // 一日に工事可能な辺数の上限. ceil(M/D) <= K <= 2*ceil(M/D).
     cin >> K;
+
+    int L;
+    if (M % D == 0) L = M / D;
+    else L = (M / D) + 1;
 
     vector<vector<pair<int, int>>> G(N);
     for (int i = 0; i < M; i++) {
@@ -34,7 +38,7 @@ int main() {
         v[m] = day;
 
         now++;
-        if (now == K) {
+        if (now == L) {
             now = 0;
             day++;
         }
