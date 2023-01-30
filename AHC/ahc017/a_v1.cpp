@@ -32,15 +32,13 @@ int main() {
     }
 
     int day = 1;
-    int now = 0;
     vector<int> v(M);
     for (int m = 0; m < M; m++) {
         v[m] = day;
 
-        now++;
-        if (now == L) {
-            now = 0;
-            day++;
+        day++;
+        if (day > M) {
+            day = 1;
         }
     }
 
