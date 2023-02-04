@@ -105,7 +105,7 @@ ll dijkstra2(vector<vector<Edge>> &G, vector<Edge> &edge_lists, int day, int s) 
 int main() {
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now();
-    int t;
+    int t = 0;
 
     cin >> N >> M >> D >> K;
 

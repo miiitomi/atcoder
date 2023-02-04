@@ -212,6 +212,15 @@ int main() {
 
         if (fuman_0 < fuman_1) {
             swap(edge_lists[i].day, edge_lists[j].day);
+        } else {
+            for (int k : lists_ukairo[i]) {
+                ng[k][day1]--;
+                ng[k][day2]++;
+            }
+            for (int k : lists_ukairo[j]) {
+                ng[k][day2]--;
+                ng[k][day1]++;
+            }
         }
 
         end = chrono::system_clock::now();
