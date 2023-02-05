@@ -138,24 +138,28 @@ int main() {
         }
         for (auto iter = Mp.begin(); iter != Mp.end(); iter++) {
             vector<int> &days = iter->second;
-            int num_min_koji_edges = K;
-            int optim_day = -1;
+            vector<pair<int, int>> vertexes_days;
             for (int day : days) {
-                if (num_koji_edges[day] < num_min_koji_edges) {
-                    optim_day = day;
-                    num_min_koji_edges = num_koji_edges[day];
+                int s = num_koji_vertexs[day][edge_lists[i].from];
+                int t = num_koji_vertexs[day][edge_lists[i].to];
+                vertexes_days.push_back(make_pair(s+t, day));
+            }
+            sort(vertexes_days.begin(), vertexes_days.end());
+            bool done = false;
+            for (auto p : vertexes_days) {
+                if (num_koji_edges[p.second] < K) {
+                    edge_lists[i].day = p.second;
+                    num_koji_edges[p.second]++;
+                    for (int j : lists_ukairo[i]) {
+                        num_koji_vertexs[p.second][edge_lists[i].from]++;
+                        num_koji_vertexs[p.second][edge_lists[i].to]++;
+                        ng[j][p.second]++;
+                    }
+                    done = true;
+                    break;
                 }
             }
-            if (num_min_koji_edges < K) {
-                edge_lists[i].day = optim_day;
-                num_koji_edges[optim_day]++;
-                num_koji_vertexs[optim_day][edge_lists[i].from]++;
-                num_koji_vertexs[optim_day][edge_lists[i].to]++;
-                for (int j : lists_ukairo[i]) {
-                    ng[j][optim_day]++;
-                }
-                break;
-            }
+            if (done) break;
         }
     }
 

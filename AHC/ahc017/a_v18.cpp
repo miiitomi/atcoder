@@ -71,7 +71,6 @@ void dijkstra(vector<vector<Edge>> &G, vector<Edge> &edge_lists, int eid, vector
 }
 
 ll dijkstra2(vector<vector<Edge>> &G, vector<Edge> &edge_lists, int day, int s) {
-    // day における s 出発の最短距離の合計.
     vector<ll> dist(N, INF);
     dist[s] = 0;
 
@@ -161,46 +160,37 @@ int main() {
 
     while (t <= 5950) {
         int i = RandInt(0, M-1);
-        int j = RandInt(0, M-1);
-        int day1 = edge_lists[i].day;
-        int day2 = edge_lists[j].day;
+        Edge &e = edge_lists[i];
+        int day0 = e.day;
+        e.day = 0;
+        num_koji_edges[day0]--;
 
-        if (edge_lists[i].day == edge_lists[j].day || ng[i][day2] > 0 || ng[j][day1] > 0) {
-            end = chrono::system_clock::now();
-            t = (int)chrono::duration_cast<chrono::milliseconds>(end-start).count();
-            continue;
+        ll min_fuman = 1e+17;
+        int optim_day = -1;
+        for (int d = 1; d <= D; d++) {
+            if (num_koji_edges[d] >= K || ng[i][d] > 0) continue;
+            e.day = d;
+            ll fuman = dijkstra2(G, edge_lists, d, e.from);
+            fuman += dijkstra2(G, edge_lists, d, e.to);
+            e.day = 0;
+            fuman -= dijkstra2(G, edge_lists, d, e.from);
+            fuman -= dijkstra2(G, edge_lists, d, e.to);
+            if (fuman < min_fuman) {
+                min_fuman = fuman;
+                optim_day = d;
+            }
         }
 
-        vector<int> starts(4);
-        starts[0] = edge_lists[i].from;
-        starts[1] = edge_lists[j].from;
-        starts[2] = edge_lists[i].to;
-        starts[3] = edge_lists[j].to;
-
-        ll fuman_0 = 0;
-        for (int k = 0; k < 4; k++) {
-            fuman_0 += dijkstra2(G, edge_lists, day1, starts[k]);
-            fuman_0 += dijkstra2(G, edge_lists, day2, starts[k]);
-        }
-
-        swap(edge_lists[i].day, edge_lists[j].day);
-        ll fuman_1 = 0;
-        for (int k = 0; k < 4; k++) {
-            fuman_1 += dijkstra2(G, edge_lists, day1, starts[k]);
-            fuman_1 += dijkstra2(G, edge_lists, day2, starts[k]);
-        }
-
-        if (fuman_0 < fuman_1) {
-            swap(edge_lists[i].day, edge_lists[j].day);
+        if (optim_day == day0 || optim_day == -1) {
+            e.day = day0;
+            num_koji_edges[day0]++;
         } else {
+            e.day = optim_day;
             for (int k : lists_ukairo[i]) {
-                ng[k][day1]--;
-                ng[k][day2]++;
+                ng[k][day0]--;
+                ng[k][optim_day]++;
             }
-            for (int k : lists_ukairo[j]) {
-                ng[k][day2]--;
-                ng[k][day1]++;
-            }
+            num_koji_edges[optim_day]++;
         }
 
         end = chrono::system_clock::now();
