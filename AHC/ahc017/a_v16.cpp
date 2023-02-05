@@ -8,10 +8,6 @@ int RandInt(int a, int b) {
     return a + rand() % (b - a + 1);
 }
 
-double Randouble() {
-    return 1.0 * rand() / RAND_MAX;
-}
-
 struct Edge {
     int id;
     int from;
