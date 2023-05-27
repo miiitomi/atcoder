@@ -17,10 +17,10 @@ fi
 
 # make sample directory
 if [ ! -e ${test_dir} ]; then
-    ~/miniforge3/bin/oj dl -d ${test_dir} ${url}
+    /opt/homebrew/Caskroom/miniforge/base/bin/oj dl -d ${test_dir} ${url}
 fi
 
 export PATH=/usr/bin:$PATH
 
 # test
-g++ -std=c++14 ${file} && ~/miniforge3/bin/oj test -c "./a.out" -d ${test_dir}
+g++ -std=c++14 ${file} && /opt/homebrew/Caskroom/miniforge/base/bin/oj test -c "./a.out" -d ${test_dir}
