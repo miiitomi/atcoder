@@ -1,35 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int INF = (int)1e+9;
+
+void dfs(int u, vector<vector<int>> &G, vector<int> &d) {
+    for (int v : G[u]) {
+        if (d[v] == INF) {
+            d[v] = d[u] + 1;
+            dfs(v, G, d);
+        }
+    }
+}
+
 int main() {
     int N;
     cin >> N;
-    vector<vector<int>> T(N);
+    vector<vector<int>> G(N);
     for (int i = 0; i < N-1; i++) {
         int u, v;
         cin >> u >> v;
         u--;
         v--;
-        T[u].push_back(v);
-        T[v].push_back(u);
+        G[u].push_back(v);
+        G[v].push_back(u);
     }
+
+    int u = 0;
+    while ((int)G[u].size() != 1) u++;
+    u = *G[u].begin();
+
+    vector<int> d(N, INF);
+    d[u] = 0;
+
+    dfs(u, G, d);
 
     vector<int> L;
-    int n = N;
-    for (int i = 0; i < N; i++) {
-        if ((int)T[i].size() >= 3) {
-            L.push_back((int)T[i].size());
-            n -= 1 + (int)T[i].size();
+    for (int u = 0; u < N; u++) {
+        if (d[u] % 3 == 0) {
+            L.push_back((int)G[u].size());
         }
     }
-    while (n > 0) {
-        L.push_back(2);
-        n -= 3;
-    }
+
     sort(L.begin(), L.end());
 
-    for (int i = 0; i < (int)L.size(); i++) {
-        cout << L[i] << " ";
+    for (int l : L) {
+        cout << l << " ";
     }
     cout << endl;
 }
