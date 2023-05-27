@@ -14,4 +14,4 @@ else
 fi
 
 # submit
-~/miniforge3/bin/oj submit --yes ${url} ${file}
+/opt/homebrew/Caskroom/miniforge/base/bin/oj submit --yes ${url} ${file}
