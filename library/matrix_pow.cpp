@@ -21,6 +21,20 @@ vector<vector<ll>> matrix_prod(vector<vector<ll>> &A, vector<vector<ll>> &B, ll 
     return V;
 }
 
+vector<ll> matrix_prod(vector<vector<ll>> &A, vector<ll> &B, ll mod) {
+    int l = A.size();
+    int m = B.size();
+
+    vector<ll> V(l, 0LL);
+    for (int i = 0; i < l; i++) {
+        for (int k = 0; k < m; k++) {
+            V[i] = (V[i] + ((A[i][k] % mod) * (B[k] % mod)) % mod) % mod;
+        }
+    }
+
+    return V;
+}
+
 vector<vector<ll>> matrix_pow(vector<vector<ll>> &A, ll p, ll mod) {
     int a_size = A.size();
 
@@ -51,10 +65,10 @@ int main() {
 
     vector<vector<ll>> B = matrix_pow(A, N-1, MOD);
 
-    vector<vector<ll>> x(2, vector<ll>(1, 1));
-    x[1][0] = 0;
+    vector<ll> x(2, 1);
+    x[1] = 0;
 
-    vector<vector<ll>> v = matrix_prod(B, x, MOD);
+    vector<ll> v = matrix_prod(B, x, MOD);
 
-    cout << v[0][0] << endl;
+    cout << v[0] << endl;
 }
