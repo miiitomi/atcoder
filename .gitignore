@@ -12,3 +12,4 @@ AHC/ahc*/README.*
 AHC/ahc*/src/
 AHC/ahc*/target/
 *.html
+ac-library/

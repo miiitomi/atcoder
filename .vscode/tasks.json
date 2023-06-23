@@ -10,8 +10,10 @@
                 "-O0",
                 "-std=c++14",
                 "${file}",
+                "-I",
+                "~/kyopuro/atcoder/ac-library",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.out"
+                "${fileDirname}/${fileBasenameNoExtension}.out",
             ],
             "options": {
                 "cwd": "/usr/local/bin"

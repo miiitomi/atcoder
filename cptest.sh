@@ -7,6 +7,7 @@ file=$3
 relative_file_dir_name=$4
 contest_name=${relative_file_dir_name##*/}
 test_dir=samples/${contest_name}/${problem_name}
+ac_library_path=~/kyopuro/atcoder/ac-library
 
 if [ ${contest_name} = tessoku-book ];
 then
@@ -23,4 +24,4 @@ fi
 export PATH=/usr/bin:$PATH
 
 # test
-g++ -std=c++14 ${file} && /opt/homebrew/Caskroom/miniforge/base/bin/oj test -c "./a.out" -d ${test_dir}
+g++ ${file} -std=c++14 -I ${ac_library_path} && /opt/homebrew/Caskroom/miniforge/base/bin/oj test -c "./a.out" -d ${test_dir}
