@@ -12,6 +12,9 @@ ac_library_path=~/kyopuro/atcoder/ac-library
 if [ ${contest_name} = tessoku-book ];
 then
     url=https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_${problem_name}
+elif [ ${contest_name} = math-and-algorithm ];
+then
+    url=https://atcoder.jp/contests/math-and-algorithm/tasks/math_and_algorithm_${problem_name}
 else
     url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_name}
 fi
