@@ -13,3 +13,7 @@ AHC/ahc*/src/
 AHC/ahc*/target/
 *.html
 ac-library/
+bin/
+in/
+out/
+result/
