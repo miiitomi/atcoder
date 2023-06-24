@@ -51,5 +51,17 @@
             ],
             "problemMatcher": []
         },
+        {
+            "label": "ahc test",
+            "group": "build",
+            "type": "shell",
+            "command": "${workspaceFolder}/ahctest.sh",
+            "args": [
+                "${fileBasenameNoExtension}",
+                "${file}",
+                "${fileDirname}",
+            ],
+            "problemMatcher": []
+        }
 	]
 }

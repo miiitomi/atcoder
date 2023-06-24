@@ -1,6 +1,3 @@
-
-#!/bin/bash
-
 problem_name=$1
 ext_name=$2
 file=$3

@@ -1,6 +1,3 @@
-
-#!/bin/bash
-
 problem_name=$1
 file=$2
 relative_file_dir_name=$3
