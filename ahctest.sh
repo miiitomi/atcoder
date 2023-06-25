@@ -12,6 +12,10 @@ if [ ! -e ${bin_dir} ]; then
     mkdir ${bin_dir}
 fi
 
+if [ ! -e ${file_dir_name}/out ]; then
+    mkdir ${file_dir_name}/out
+fi
+
 if [ ! -e ${result_dir} ]; then
     mkdir ${result_dir}
 fi
