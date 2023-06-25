@@ -16,10 +16,6 @@ if [ ! -e ${result_dir} ]; then
     mkdir ${result_dir}
 fi
 
-if [ ! -e ${result_file} ]; then
-    touch ${result_file}
-fi
-
 g++ ${file} -std=c++14 -I ${ac_library_path} -o ${bin_dir}/${file_no_extension}.out
 
 for i in `seq -w 0 9`

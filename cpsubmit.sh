@@ -9,6 +9,9 @@ then
 elif [ ${contest_name} = math-and-algorithm ];
 then
     url=https://atcoder.jp/contests/math-and-algorithm/tasks/math_and_algorithm_${problem_name}
+elif [ ${contest_name:0:3} = ahc ];
+then
+    url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_a
 else
     url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_name}
 fi
