@@ -4,7 +4,8 @@
         "iostream": "cpp",
         "vector": "cpp",
         "random": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "cmath": "cpp"
     },
     "jupyter.jupyterServerType": "local"
 }

@@ -2,10 +2,12 @@
 using namespace std;
 typedef long long ll;
 
-bool prd_env = false;
 random_device seed_gen;
 mt19937 engine(seed_gen());
 normal_distribution<> ndist(0.0, 1.0);
+uniform_int_distribution<> dist_l(10, 50);
+uniform_int_distribution<> dist_n(60, 100);
+uniform_int_distribution<> dist_s(1, 30);
 
 struct Simulator {
     int L, N, S;
@@ -18,32 +20,31 @@ struct Simulator {
     double total_score = 1e+14;
     double K = 3.7;
     int high_value;
+    bool prd_env;
 
-    Simulator(int l_, int n_, int s_, int h_) {
+    Simulator(int l_, int n_, int s_, int h_, bool prd) {
         high_value = h_;
+        prd_env = prd;
+        if (l_ != -1) L = l_;
+        else {
+            L = dist_l(engine);
+        }
+        if (n_ != -1) N = n_;
+        else {
+            N = dist_n(engine);            
+        }
+        if (s_ != -1) S = s_;
+        else {
+            int s = dist_s(engine);
+            S = s*s;
+        }
+    
         if (prd_env) {
-            cin >> L >> N >> S;
             X.resize(N);
             for (int i = 0; i < N; i++) {
                 cin >> X[i].first >> X[i].second;
             }
         } else {
-            if (l_ != -1) L = l_;
-            else {
-                uniform_int_distribution<> dist_l(10, 50);
-                L = dist_l(engine);
-            }
-            if (n_ != -1) N = n_;
-            else {
-                uniform_int_distribution<> dist_n(60, 100);
-                N = dist_n(engine);            
-            }
-            if (s_ != -1) S = s_;
-            else {
-                uniform_int_distribution<> dist_s(1, 30);
-                int s = dist_s(engine);
-                S = s*s;
-            }
             set<pair<int,int>> Set_x;
             uniform_int_distribution<> dist_x(0, L-1);
             while ((int)Set_x.size() < N) {
@@ -173,18 +174,59 @@ struct Simulator {
     }
 };
 
-int main() {
-    int L = 40;
-    int N = 80;
-    int S = 10*10;
-    int T = 100;
+void solve(bool prd, int l, int n, int s) {
+    chrono::system_clock::time_point start, end;
+    start = chrono::system_clock::now();
 
-    cout << "total_score num_right num_wrong place_cost move_cost" << endl;
-    for (int h = 50; h <= 1000; h+=50) {
-        for (int t = 0; t < T; t++) {
-            Simulator sim(L, N, S, h);
-            sim.solve();
-            cout << 1+(ll)sim.total_score << " " << sim.N - sim.num_wrong << " " << sim.num_wrong << " " << sim.place_cost << " " << sim.move_cost << endl;
+    if (prd) cin >> l >> n >> s;
+    else {
+        if (l == -1) l = dist_l(engine);
+        if (n == -1) n = dist_n(engine);            
+        if (s == -1) {
+            int s_ = dist_s(engine);
+            s = s_*s_;
         }
     }
+
+    double default_score = 1e+9;
+    for (int k = 1; k <= n; k++) default_score *= 0.8;
+
+    int T = 0;
+    int min_h = 100;
+    vector<ll> scores(1000/min_h, 0);
+    int t;
+    do {
+        T++;
+        for (int i = 0; i < (int)scores.size(); i++) {
+            Simulator sim(l, n, s, min_h*(i+1), false);
+            sim.solve();
+            scores[i] += 1+(ll)sim.total_score;
+        }
+
+        end = chrono::system_clock::now();
+        t = (int)chrono::duration_cast<chrono::milliseconds>(end-start).count();
+    } while (t <= 3000);
+
+    int i = distance(scores.begin(), max_element(scores.begin(), scores.end()));
+    int h = min_h*(i+1);
+
+    double max_score = (double)scores[i] / T;
+
+    if (max_score > default_score) {
+        Simulator sim(l, n, s, h, prd);
+        sim.solve();
+    } else {
+        for (int i = 0; i < l; i++) {
+            for (int j = 0; j < l; j++) cout << 0 << " ";
+            cout << endl;
+        }
+        cout << "-1 -1 -1" << endl;
+        for (int i = 0; i < n; i++) cout << i << endl;
+    }
+}
+
+int main() {
+    int l=-1, n=-1, s=-1;
+    bool prd = true;
+    solve(prd, l, n, s);
 }

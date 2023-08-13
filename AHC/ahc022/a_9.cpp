@@ -2,7 +2,7 @@
 using namespace std;
 typedef long long ll;
 
-bool prd_env = false;
+bool prd_env = true;
 random_device seed_gen;
 mt19937 engine(seed_gen());
 normal_distribution<> ndist(0.0, 1.0);
@@ -16,11 +16,8 @@ struct Simulator {
     ll move_cost = 0;
     int num_wrong = 0;
     double total_score = 1e+14;
-    double K = 3.7;
-    int high_value;
 
-    Simulator(int l_, int n_, int s_, int h_) {
-        high_value = h_;
+    Simulator(int l_, int n_, int s_) {
         if (prd_env) {
             cin >> L >> N >> S;
             X.resize(N);
@@ -128,7 +125,7 @@ struct Simulator {
             }
         }
 
-        P[min_i][min_j] = high_value;
+        P[min_i][min_j] = 1000;
         set_P();
 
         vector<vector<int>> Q(N, vector<int>(N, 0));
@@ -143,7 +140,7 @@ struct Simulator {
                 if (abs((b-min_j+L)%L) < abs(y)) y = -((b-min_j+L)%L);
                 int q = warp(i, x, y);
                 Q[i][k] += q;
-                if ((double)q >= S*K) break;
+                if (q >= 1000) break;
             }
         }
 
@@ -174,17 +171,6 @@ struct Simulator {
 };
 
 int main() {
-    int L = 40;
-    int N = 80;
-    int S = 10*10;
-    int T = 100;
-
-    cout << "total_score num_right num_wrong place_cost move_cost" << endl;
-    for (int h = 50; h <= 1000; h+=50) {
-        for (int t = 0; t < T; t++) {
-            Simulator sim(L, N, S, h);
-            sim.solve();
-            cout << 1+(ll)sim.total_score << " " << sim.N - sim.num_wrong << " " << sim.num_wrong << " " << sim.place_cost << " " << sim.move_cost << endl;
-        }
-    }
+    Simulator sim(-1, -1, -1);
+    sim.solve();
 }
