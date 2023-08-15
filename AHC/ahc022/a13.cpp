@@ -1,7 +1,9 @@
+// a13.cpp
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 
+bool prd_env = true;
 random_device seed_gen;
 mt19937 engine(seed_gen());
 normal_distribution<> ndist(0.0, 1.0);
@@ -14,33 +16,27 @@ struct Simulator {
     vector<pair<int,int>> X;
     vector<int> A, E;
     vector<vector<int>> P;
-    ll place_cost = 0;
-    ll move_cost = 0;
-    int num_wrong = 0;
-    double total_score = 1e+14;
+    ll place_cost;
+    ll move_cost;
+    int num_wrong;
+    double total_score;
     double K = 3.7;
-    int high_value;
-    bool prd_env;
+    int min_i, min_j;
+    bool final_phase = false;
 
-    Simulator(int l_, int n_, int s_, int h_, bool prd) {
-        high_value = h_;
-        prd_env = prd;
+    Simulator(int l_, int n_, int s_) {
         if (l_ != -1) L = l_;
-        else {
-            L = dist_l(engine);
-        }
+        else L = dist_l(engine);
         if (n_ != -1) N = n_;
-        else {
-            N = dist_n(engine);            
-        }
+        else N = dist_n(engine);            
         if (s_ != -1) S = s_;
         else {
             int s = dist_s(engine);
             S = s*s;
         }
-    
+
+        X.resize(N);
         if (prd_env) {
-            X.resize(N);
             for (int i = 0; i < N; i++) {
                 cin >> X[i].first >> X[i].second;
             }
@@ -51,64 +47,20 @@ struct Simulator {
                 pair<int,int> p;
                 p.first = dist_x(engine);
                 p.second = dist_x(engine);
-                if (!Set_x.count(p)) {
-                    Set_x.insert(p);
-                    X.push_back(p);
-                }
+                if (!Set_x.count(p)) Set_x.insert(p);
             }
-            sort(X.begin(), X.end());
-            for (int i = 0; i < N; i++) A.push_back(i);
-            shuffle(A.begin(), A.end(), engine);
-        }
-    }
-
-    void set_P() {
-        for (int i = 0; i < L; i++) {
-            for (int j = 0; j < L; j++) {
-                if (prd_env) cout << P[i][j] << " ";
-                else {
-                    ll a = (P[i][j] - P[(i+1)%L][j]);
-                    ll b = (P[i][j] - P[i][(j+1)%L]);
-                    place_cost += a*a + b*b;
-                }
+            int i = 0;
+            for (auto iter = Set_x.begin(); iter != Set_x.end(); iter++) {
+                X[i] = *iter;
+                i++;
             }
-            if (prd_env) cout << endl;
         }
-    }
 
-    int warp(int i, int x, int y) {
-        if (prd_env) {
-            cout << i << " " << x << " " << y << endl;
-            if (i == -1 && x == -1 && y == -1) return -1;
-            int p;
-            cin >> p;
-            return p;
-        }
-        if (i == -1 && x == -1 && y == -1) return -1;
-        move_cost += 100 * (10 + abs(x) + abs(y));
-        int a = (X[A[i]].first + x + L) % L;
-        int b = (X[A[i]].second + y + L) % L;
-        double m = (double)P[a][b] + ndist(engine) * (double)S;
-        return max(0, min(1000, (int)round(m)));
-    }
+        A.resize(N);
+        for (int i = 0; i < N; i++) A[i] = i;
 
-    void compute_total_cost() {
-        if (prd_env) {
-            warp(-1, -1, -1);
-            for (int e : E) cout << e << endl;
-            return;
-        }
-        for (int i = 0; i < N; i++) {
-            if (E[i] != A[i]) num_wrong++;
-        }
-        for (int i = 0; i < num_wrong; i++) total_score *= (double)0.8;
-        total_score /= (1e+5 + place_cost + move_cost);
-    }
-
-    void solve() {
         P.assign(L, vector<int>(L, 0));
         ll min_cost = 1e+17;
-        int min_i = -1, min_j = -1;
         for (int i = 0; i < L; i++) {
             for (int j = 0; j < L; j++) {
                 ll tmp_cost = 0;
@@ -128,11 +80,63 @@ struct Simulator {
                 }
             }
         }
+    }
+
+    void cout_P() {
+        for (int i = 0; i < L; i++) {
+            for (int j = 0; j < L; j++) cout << P[i][j] << " ";
+            cout << endl;
+        }
+    }
+
+    int warp(int i, int x, int y) {
+        if (prd_env && final_phase) {
+            cout << i << " " << x << " " << y << endl;
+            if (i == -1 && x == -1 && y == -1) return -1;
+            int p;
+            cin >> p;
+            return p;
+        }
+        if (i == -1 && x == -1 && y == -1) return -1;
+        move_cost += 100 * (10 + abs(x) + abs(y));
+        int a = (X[A[i]].first + x + L) % L;
+        int b = (X[A[i]].second + y + L) % L;
+        double m = (double)P[a][b] + ndist(engine) * (double)S;
+        return max(0, min(1000, (int)round(m)));
+    }
+
+    void compute_total_cost() {
+        if (prd_env && final_phase) {
+            warp(-1, -1, -1);
+            for (int e : E) cout << e << endl;
+            return;
+        }
+        for (int i = 0; i < N; i++) {
+            if (E[i] != A[i]) num_wrong++;
+        }
+        for (int i = 0; i < num_wrong; i++) total_score *= (double)0.8;
+        total_score /= (1e+5 + place_cost + move_cost);
+    }
+
+    void reset() {
+        E.assign(N, -1);
+        move_cost = 0;
+        num_wrong = 0;
+        total_score = 1e+14;
+    }
+
+    void solve(int high_value, bool _final_phase) {
+        reset();
+
+        final_phase = _final_phase;
+        if (!final_phase) shuffle(A.begin(), A.end(), engine);
 
         P[min_i][min_j] = high_value;
-        set_P();
+        place_cost = 4*(high_value*high_value);
+        if (prd_env && final_phase) cout_P();
 
         vector<vector<int>> Q(N, vector<int>(N, 0));
+        vector<bool> done(N, false);
         
         for (int i = 0; i < N; i++) {
             for (int k = 0; k < N; k++) {
@@ -144,21 +148,26 @@ struct Simulator {
                 if (abs((b-min_j+L)%L) < abs(y)) y = -((b-min_j+L)%L);
                 int q = warp(i, x, y);
                 Q[i][k] += q;
-                if ((double)q >= S*K) break;
+                if ((double)q >= S*K) {
+                    E[i] = k;
+                    done[k] = true;
+                    break;
+                }
             }
         }
 
         priority_queue<pair<int,pair<int,int>>> PQ;
         for (int i = 0; i < N; i++) {
+            if (E[i] != -1) continue;
             for (int j = 0; j < N; j++) {
+                if (done[j]) continue;
                 pair<int, pair<int,int>> p;
                 p.first = Q[i][j];
                 p.second = make_pair(i, j);
                 PQ.push(p);
             }
         }
-        vector<bool> done(N, false);
-        E.assign(N, -1);
+
         while (!PQ.empty()) {
             auto p = PQ.top();
             PQ.pop();
@@ -174,11 +183,11 @@ struct Simulator {
     }
 };
 
-void solve(bool prd, int l, int n, int s) {
+void solve(int l, int n, int s) {
     chrono::system_clock::time_point start, end;
     start = chrono::system_clock::now();
 
-    if (prd) cin >> l >> n >> s;
+    if (prd_env) cin >> l >> n >> s;
     else {
         if (l == -1) l = dist_l(engine);
         if (n == -1) n = dist_n(engine);            
@@ -187,6 +196,8 @@ void solve(bool prd, int l, int n, int s) {
             s = s_*s_;
         }
     }
+
+    Simulator sim(l, n, s);
 
     double default_score = 1e+9;
     for (int k = 1; k <= n; k++) default_score *= 0.8;
@@ -198,8 +209,7 @@ void solve(bool prd, int l, int n, int s) {
     do {
         T++;
         for (int i = 0; i < (int)scores.size(); i++) {
-            Simulator sim(l, n, s, min_h*(i+1), false);
-            sim.solve();
+            sim.solve(min_h*(i+1), false);
             scores[i] += 1+(ll)sim.total_score;
         }
 
@@ -213,22 +223,25 @@ void solve(bool prd, int l, int n, int s) {
     double max_score = (double)scores[i] / T;
 
     if (max_score > default_score) {
-        Simulator sim(l, n, s, h, prd);
-        sim.solve();
-    } else if (prd) {
+        sim.solve(h, true);
+    } else if (prd_env) {
         for (int i = 0; i < l; i++) {
             for (int j = 0; j < l; j++) cout << 0 << " ";
             cout << endl;
         }
         cout << "-1 -1 -1" << endl;
         for (int i = 0; i < n; i++) cout << i << endl;
+    } else {
+        sim.reset();
+        sim.num_wrong = n;
+        sim.place_cost = 0;
+        sim.move_cost = 0;
+        sim.total_score = default_score;
     }
 
-    cout << l << " " << n << " " <<s << " " << T << endl;
 }
 
 int main() {
     int l=-1, n=-1, s=-1;
-    bool prd = true;
-    for (int i = 0; i < 10; i++) solve(prd, l, n, s);
+    solve(l, n, s);
 }
