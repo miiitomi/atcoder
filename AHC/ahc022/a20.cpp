@@ -345,8 +345,6 @@ ll solve(int l, int n, int s, mt19937 &engine) {
         sim.move_cost = 0;
         sim.total_score = default_score;
     }
-
-    if (!prd_env) cout << sim.N << " " << sim.L << " " << sim.S << " " << sim.total_score << " " << sim.num_wrong << " " << sim.move_cost << endl;
     return 1+(ll)sim.total_score;
 }
 
@@ -359,7 +357,7 @@ int main() {
         return 0;
     }
 
-    for (int s = 1; s <= 3; s++) {
+    for (int s = 1; s <= 30; s++) {
         ll ans = 0;
         for (int i = 0; i < 10; i++) {
             mt19937 engine((10*(s-1))+i);

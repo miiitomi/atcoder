@@ -1,17 +1,14 @@
-// a22.cpp
+// a23.cpp
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 
 bool prd_env = true;
-// random_device seed_gen;
-// mt19937 engine(seed_gen());
-// mt19937 engine(0);
 normal_distribution<> ndist(0.0, 1.0);
 uniform_int_distribution<> dist_l(10, 50);
 uniform_int_distribution<> dist_n(60, 100);
 uniform_int_distribution<> dist_s(1, 30);
-vector<int> high_values{100,100,100,150,200,250,300,400,450,550,650,800,900,950,1000};
+vector<int> high_values{20,50,100,150,200,250,300,400,450,550,650,800,900,950,1000};
 
 // chrono::system_clock::time_point start, end_t;
 
@@ -22,7 +19,6 @@ struct Simulator {
     vector<vector<int>> P;
     ll place_cost;
     ll move_cost;
-    ll total_cost;
     int num_wrong;
     double total_score;
     double K = 3.7;
@@ -103,7 +99,6 @@ struct Simulator {
                     tmp_opt_step = tmp_step;
                 }
             }
-
             if (is_able) {
                 l = tmp_p;
                 p = tmp_p;
@@ -140,8 +135,11 @@ struct Simulator {
                         P[i][j] /= 4;
                     }
                 }
-            }            
+            }
         }
+
+        place_cost = 0;
+        for (int i = 0; i < L; i++) for (int j = 0; j < L; j++) place_cost += pow(P[i][j]-P[(i+1)%L][j], 2) + pow(P[i][j]-P[i][(j+1)%L], 2);
 
         // end_t = chrono::system_clock::now();
         // int t = (int)chrono::duration_cast<chrono::milliseconds>(end_t-start).count();
@@ -202,14 +200,14 @@ struct Simulator {
             return p;
         }
         if (i == -1 && x == -1 && y == -1) return -1;
-        move_cost += 100 * (10 + abs(x) + abs(y));
+        move_cost += (100 * (10 + abs(x) + abs(y)));
         int a = (X[A[i]].first + x + L) % L;
         int b = (X[A[i]].second + y + L) % L;
         double m = (double)P[a][b] + ndist(engine) * (double)S;
         return max(0, min(1000, (int)round(m)));
     }
 
-    void compute_total_cost(mt19937 &engine) {
+    void compute_total_score(mt19937 &engine) {
         if (prd_env && final_phase) {
             warp(-1, -1, -1, engine);
             for (int e : E) cout << e << endl;
@@ -218,13 +216,11 @@ struct Simulator {
         for (int i = 0; i < N; i++) {
             if (E[i] != A[i]) num_wrong++;
         }
-        for (int i = 0; i < num_wrong; i++) total_score *= (double)0.8;
-        total_score /= (1e+5 + place_cost + move_cost);
+        total_score = (1e+14 / (1e+5 + (double)place_cost + (double)move_cost)) * pow((double)0.8, (double)num_wrong);
     }
 
     void reset() {
         E.assign(N, -1);
-        place_cost = 0;
         move_cost = 0;
         num_wrong = 0;
         total_score = 1e+14;
@@ -232,11 +228,9 @@ struct Simulator {
 
     void solve(bool _final_phase, mt19937 engine) {
         reset();
+        shuffle(A.begin(), A.end(), engine);
 
         final_phase = _final_phase;
-        if (!final_phase) shuffle(A.begin(), A.end(), engine);
-
-        place_cost = 4*p*(high_value*high_value);
         if (prd_env && final_phase) cout_P();
 
         vector<vector<int>> R(N, vector<int>(N, 0));
@@ -262,7 +256,7 @@ struct Simulator {
                     remain_warp--;
                     did_warp = true;
                     int q = warp(i, step[k].first, step[k].second, engine);
-                    if ((double) q >= S*K) {
+                    if ((double) q >= max(S*K, high_value/2.0)) {
                         E[i] = k;
                         done[k] = true;
                         counter++;
@@ -274,7 +268,7 @@ struct Simulator {
             }
 
             remain_warp_par_entrance = 0;
-            if (N - counter > 0) remain_warp_par_entrance = min(N-counter, remain_warp/(N-counter));
+            if (N - counter > 0) remain_warp_par_entrance = min(N-counter, remain_warp/(N-counter))/2;
             V = new_V;
             try_number++;
         } while (remain_warp_par_entrance > 0 && did_warp && (try_number <= 2 || S > 300));
@@ -300,12 +294,12 @@ struct Simulator {
             counter++;
         }
 
-        compute_total_cost(engine);
+        compute_total_score(engine);
         return;
     }
 };
 
-ll solve(int l, int n, int s, mt19937 &engine) {
+Simulator solve(int l, int n, int s, mt19937 &engine) {
     if (prd_env) cin >> l >> n >> s;
     else {
         if (l == -1) l = dist_l(engine);
@@ -315,11 +309,10 @@ ll solve(int l, int n, int s, mt19937 &engine) {
 
     Simulator sim(l, n, s, engine);
 
-    double default_score = 1e+9;
-    for (int k = 1; k <= n; k++) default_score *= 0.8;
+    double default_score = 1e+9 * pow((double)0.8, (double)sim.N);
 
-    double predicted_score = 0;
-
+    double predicted_score = 1e+9;
+    predicted_score = 0.0;
     for (int t = 0; t < 100; t++) {
         sim.solve(false, engine);
         predicted_score += sim.total_score;
@@ -343,7 +336,7 @@ ll solve(int l, int n, int s, mt19937 &engine) {
         sim.total_score = default_score;
     }
 
-    return 1+(ll)sim.total_score;
+    return sim;
 }
 
 int main() {
@@ -354,13 +347,17 @@ int main() {
         solve(-1,-1,-1, engine);
         return 0;
     }
+    cout << "N L S total_score num_right num_wrong place_cost move_cost" << endl;
 
-    for (int s = 1; s <= 30; s++) {
-        ll ans = 0;
-        for (int i = 0; i < 10; i++) {
-            mt19937 engine((10*(s-1))+i);
-            ans += solve(-1, -1, s*s, engine);
+    for (int N = 60; N <= 100; N += 20) {
+        for (int L = 10; L <= 50; L += 20) {
+            for (int s_ = 1; s_ <= 10; s_++) {
+                for (int i = 0; i < 100; i++) {
+                    mt19937 engine(N*1000000+L*10000+i);
+                    Simulator sim = solve(L, N, s_*s_, engine);
+                    cout << sim.N << " " << sim.L << " " << sim.S << " " << sim.total_score << " " << sim.N - sim.num_wrong << " " << sim.num_wrong << " " << sim.place_cost << " " << sim.move_cost << endl;
+                }
+            }
         }
-        cout << "S = " << s*s << " : " << ans/10 << endl;
     }
 }
