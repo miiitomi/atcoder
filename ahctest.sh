@@ -22,22 +22,11 @@ fi
 
 g++ ${file} -std=c++14 -I ${ac_library_path} -o ${bin_dir}/${file_no_extension}.out
 
-for i in `seq -w 0 9`
+for i in `seq -w 00 19`
 do
     if [ ${i} -eq 0 ]; then
-        ${bin_dir}/${file_no_extension}.out < ${file_dir_name}/in/000${i}.txt > ${file_dir_name}/out/000${i}_${file_no_extension}.txt
-        cargo run -q --release --bin vis ${file_dir_name}/in/000${i}.txt ${file_dir_name}/out/000${i}_${file_no_extension}.txt > ${result_file}
+        cargo run --release --bin tester ${bin_dir}/${file_no_extension}.out < ${file_dir_name}/in/00${i}.txt > ${file_dir_name}/out/000${i}_${file_no_extension}.txt
     else
-        ${bin_dir}/${file_no_extension}.out < ${file_dir_name}/in/000${i}.txt > ${file_dir_name}/out/000${i}_${file_no_extension}.txt
-        cargo run -q --release --bin vis ${file_dir_name}/in/000${i}.txt ${file_dir_name}/out/000${i}_${file_no_extension}.txt >> ${result_file}
+        cargo run --release --bin tester ${bin_dir}/${file_no_extension}.out < ${file_dir_name}/in/00${i}.txt > ${file_dir_name}/out/000${i}_${file_no_extension}.txt
     fi
 done
-
-sum=0
-
-while read x y z; do
-    sum=`expr ${sum} + ${z}`
-done < ${result_file}
-
-echo Total Score = ${sum} >> ${result_file}
-echo ${file_no_extension} : Total Score = ${sum}
