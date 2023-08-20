@@ -65,9 +65,10 @@ struct Simulator {
             bool is_able = false;
             tmp_min_cost = 1e+17;
             set<pair<int,int>> tmp_opt_Q;
-            for (int i_ = 0; i_ < 1e+3; i_++) {
+            for (int i_ = 0; i_ < 1e+4; i_++) {
                 ll tmp_cost = 0;
                 set<pair<int,int>> tmp_Q;
+                set<pair<int,int>> tmp_step_set;
                 vector<pair<int,int>> tmp_step(N);
                 while ((int)tmp_Q.size() < tmp_p) tmp_Q.insert(make_pair(dist_x(engine), dist_x(engine)));
                 for (int k = 0; k < N; k++) {
@@ -89,14 +90,17 @@ struct Simulator {
                     }
                     tmp_cost += 10+abs(min_x)+abs(min_y);
                     tmp_step[k] = make_pair(min_x, min_y);
+                    tmp_step_set.insert(tmp_step[k]);
                 }
-                int counter = 0;
-                for (int k = 0; k < N; k++) for (int l = 0; l < N; l++) counter+= tmp_Q.count(make_pair((X[k].first+tmp_step[l].first+L)%L, (X[k].second+tmp_step[l].second+L)%L));
-                if (counter == N && tmp_cost < tmp_min_cost) {
-                    is_able = true;
-                    tmp_min_cost = tmp_cost;
-                    tmp_opt_Q = tmp_Q;
-                    tmp_opt_step = tmp_step;
+                if (tmp_step_set.size() == N) {
+                    int counter = 0;
+                    for (int k = 0; k < N; k++) for (int l = 0; l < N; l++) counter+= tmp_Q.count(make_pair((X[k].first+tmp_step[l].first+L)%L, (X[k].second+tmp_step[l].second+L)%L));
+                    if (counter == N && tmp_cost < tmp_min_cost) {
+                        is_able = true;
+                        tmp_min_cost = tmp_cost;
+                        tmp_opt_Q = tmp_Q;
+                        tmp_opt_step = tmp_step;
+                }
                 }
             }
             if (is_able) {
@@ -271,7 +275,7 @@ struct Simulator {
             if (N - counter > 0) remain_warp_par_entrance = min(N-counter, remain_warp/(N-counter))/2;
             V = new_V;
             try_number++;
-        } while (remain_warp_par_entrance > 0 && did_warp && (try_number <= 2 || S > 300));
+        } while (remain_warp_par_entrance > 0 && did_warp && (try_number <= 2 || S > 260));
 
         priority_queue<pair<int,pair<int,int>>> PQ;
         for (int i = 0; i < N; i++) {
@@ -351,7 +355,7 @@ int main() {
 
     for (int N = 60; N <= 100; N += 20) {
         for (int L = 10; L <= 50; L += 20) {
-            for (int s_ = 1; s_ <= 10; s_++) {
+            for (int s_ = 1; s_ <= 30; s_++) {
                 for (int i = 0; i < 100; i++) {
                     mt19937 engine(N*1000000+L*10000+i);
                     Simulator sim = solve(L, N, s_*s_, engine);

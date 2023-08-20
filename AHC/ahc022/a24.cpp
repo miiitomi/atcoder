@@ -1,17 +1,13 @@
-// a23.cpp
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 
-bool prd_env = false;
+bool prd_env = true;
 normal_distribution<> ndist(0.0, 1.0);
 uniform_int_distribution<> dist_l(10, 50);
 uniform_int_distribution<> dist_n(60, 100);
 uniform_int_distribution<> dist_s(1, 30);
 vector<int> high_values{20,50,100,150,200,250,300,400,450,550,650,800,900,950,1000};
-
-chrono::system_clock::time_point start, end_t;
-int int_t = 0;
 
 struct Simulator {
     int L, N, S, high_value;
@@ -65,7 +61,8 @@ struct Simulator {
         while ((int)pow(k_, 2) < r-l) k_++;
 
         while (r-l>1) {
-            int_t = 0;
+            int int_t = 0;
+            chrono::system_clock::time_point start, end_t;
             start = chrono::system_clock::now();
             int tmp_p = (r+l)/2;
             vector<pair<int,int>> tmp_opt_step(N);
@@ -99,7 +96,7 @@ struct Simulator {
                     tmp_step[k] = make_pair(min_x, min_y);
                     tmp_step_set.insert(tmp_step[k]);
                 }
-                if (tmp_step_set.size() == N) {
+                if ((int)tmp_step_set.size() == N) {
                     int counter = 0;
                     for (int k = 0; k < N; k++) for (int l = 0; l < N; l++) counter+= tmp_Q.count(make_pair((X[k].first+tmp_step[l].first+L)%L, (X[k].second+tmp_step[l].second+L)%L));
                     if (counter == N && tmp_cost < tmp_min_cost) {
@@ -112,8 +109,7 @@ struct Simulator {
                 end_t = chrono::system_clock::now();
                 int_t = (int)chrono::duration_cast<chrono::milliseconds>(end_t-start).count();
             }
-            tmp_min_cost += 4*tmp_p*pow(high_value, 2);
-            if (is_able && tmp_min_cost < min_cost) {
+            if (is_able) {
                 min_cost = tmp_min_cost;
                 l = tmp_p;
                 p = tmp_p;
@@ -155,10 +151,6 @@ struct Simulator {
 
         place_cost = 0;
         for (int i = 0; i < L; i++) for (int j = 0; j < L; j++) place_cost += pow(P[i][j]-P[(i+1)%L][j], 2) + pow(P[i][j]-P[i][(j+1)%L], 2);
-
-        // end_t = chrono::system_clock::now();
-        // int t = (int)chrono::duration_cast<chrono::milliseconds>(end_t-start).count();
-        // cout << "# " << t << " [ms]" << endl;
     }
 
     Simulator(int l_, int n_, int s_, mt19937 &engine) {
@@ -360,25 +352,5 @@ int main() {
         mt19937 engine(seed_gen());
         solve(-1,-1,-1, engine);
         return 0;
-    }
-    // cout << "N L S total_score num_right num_wrong place_cost move_cost" << endl;
-
-    // for (int N = 60; N <= 100; N += 20) {
-    //     for (int L = 10; L <= 50; L += 20) {
-    //         for (int s_ = 1; s_ <= 30; s_++) {
-    //             for (int i = 0; i < 100; i++) {
-    //                 mt19937 engine(N*1000000+L*10000+i);
-    //                 Simulator sim = solve(L, N, s_*s_, engine);
-    //                 cout << sim.N << " " << sim.L << " " << sim.S << " " << sim.total_score << " " << sim.N - sim.num_wrong << " " << sim.num_wrong << " " << sim.place_cost << " " << sim.move_cost << endl;
-    //             }
-    //         }
-    //     }
-    // }
-    for (int i = 0; i < 1e+4; i++) {
-        random_device seed_gen;
-        mt19937 engine(seed_gen());
-        int_t = 0;
-        Simulator sim(50, 60, 1, engine);
-        cout << sim.N << " " << sim.L << " " << sim.S << " " << sim.p << endl;
     }
 }
