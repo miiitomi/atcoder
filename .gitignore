@@ -17,3 +17,5 @@ bin/
 in/
 out/
 result/
+*.rs
+AHC/*/*.md
