@@ -5,27 +5,20 @@ typedef long long ll;
 int main() {
     int N;
     cin >> N;
-    vector<ll> A(N);
-    for (int i = 0; i < N; i++) cin >> A[i];
-    ll s = 0;
-    for (ll a : A)  s += a;
-    ll M = s / N;
-
-    ll a = 0, b = 0, c = 0, d = 0;
+    vector<int> A(N);
+    double mean = 0;
     for (int i = 0; i < N; i++) {
-        if (A[i] > M+1) {
-            a += A[i] - (M+1);
-        }
-        if (A[i] > M) {
-            c += A[i] - M;
-        }
-        if (A[i] < M) {
-            b += M - A[i];
-        }
-        if (A[i] < M-1) {
-            d += M-1 - A[i];
-        }
+        cin >> A[i];
+        mean += A[i];
     }
+    mean /= (double)N;
 
-    cout << min(max(a, b), max(c, d)) << endl;
+    ll num_minus=0, num_plus=0;
+    ll ans = 0;
+    for (int i = 0; i < N; i++) {
+        if (A[i] < mean) num_plus += ((int)mean - A[i]);
+        else if (A[i] > mean) num_minus += (A[i] - ((int)mean + 1));
+    }
+    ans = max(num_plus, num_minus);
+    cout << ans << endl;
 }
