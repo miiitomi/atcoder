@@ -2,6 +2,7 @@ problem_name=$1
 file=$2
 relative_file_dir_name=$3
 contest_name=${relative_file_dir_name##*/}
+contest_type=`echo ${relative_file_dir_name%/*}`
 
 if [ ${contest_name} = tessoku-book ];
 then
@@ -12,6 +13,10 @@ then
 elif [ ${contest_name:0:3} = ahc ];
 then
     url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_a
+elif [ ${contest_type} = mayocon ];
+then
+    url=`head -n 1 ${file}`
+    url=${url:3}
 else
     url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_name}
 fi
