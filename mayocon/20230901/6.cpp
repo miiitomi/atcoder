@@ -3,7 +3,6 @@
 using namespace std;
 typedef long long ll;
 const ll MOD = 998244353LL;
-const string ABC = "abcdefghijklmnopqrstuvwxyz";
 
 ll mod_pow(ll a, ll n) {
     if (n == 0) return 1;
@@ -15,24 +14,22 @@ ll mod_pow(ll a, ll n) {
 int main() {
     int N, L;
     cin >> N >> L;
-    vector<set<char>> S(N);
-    for (int i = 0; i < N; i++) {
-        string s;
-        cin >> s;
-        for (char c : s) S[i].insert(c);
-    }
+    vector<string> S(N);
+    for (int i = 0; i < N; i++) cin >> S[i];
 
     ll ans = 0;
     for (int b = 1; b < (1 << N); b++) {
-        set<char> C(ABC.begin(), ABC.end());
+        vector<int> v(26, 0);
         int num_line = 0;
         for (int k = 0; k < N; k++) {
             if (!(b & (1 << k))) continue;
             num_line++;
-            for (int c : ABC) if (C.count(c) && !S[k].count(c)) C.erase(c);
+            for (char c : S[k]) v[(int)(c - 'a')]++;
         }
-        if (C.empty()) continue;
-        ll num_strings = mod_pow((ll)C.size(), L);
+        ll num_char = 0;
+        for (int c = 0; c < 26; c++) if (v[c] == num_line) num_char++;
+        if (num_char == 0) continue;
+        ll num_strings = mod_pow(num_char, L);
 
         if (num_line % 2 == 1) ans = (ans + num_strings) % MOD;
         else ans = (ans - num_strings + MOD) % MOD;
