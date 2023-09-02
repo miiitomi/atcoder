@@ -1,0 +1,219 @@
+{
+	"a": {
+		"prefix": "a",
+		"body": [
+			"#include <bits/stdc++.h>",
+			"using namespace std;",
+			"",
+			"int main() {",
+			"    $0",
+			"}",
+			"",
+		],
+		"description": ""
+	},
+	"c": {
+		"prefix": "c",
+		"body": [
+			"#include <bits/stdc++.h>",
+			"using namespace std;",
+			"",
+			"void solve() {",
+			"    $0",
+			"}",
+			"",
+			"int main() {",
+    		"    int T;",
+			"    cin >> T;",
+    		"    for (int t = 0; t < T; t++) solve();",
+			"}",
+			"",
+		],
+		"description": ""
+	},
+	"acl": {
+		"prefix": "at",
+		"body": [
+			"#include <atcoder/all>$0",
+		],
+		"description": "AtCoder Library"
+	},
+	"long long": {
+		"prefix": "ll",
+		"body": [
+			"typedef long long ll;",
+		],
+		"description": "long long"
+	},
+	"unsigned long long": {
+		"prefix": "ull",
+		"body": [
+			"typedef unsigned long long ull;$0",
+		],
+		"description": "unsigned long long"
+	},
+	"for": {
+		"prefix": "f",
+		"body": [
+			"for (int i$1 = 0$2; i$3 < N$4; i++$5) $0",
+		],
+		"description": "for"
+	},
+	"cin": {
+		"prefix": "ci",
+		"body": [
+			"cin >> $0",
+		],
+		"description": "cin"
+	},
+	"cout": {
+		"prefix": "co",
+		"body": [
+			"cout << $1 << endl$0;",
+		],
+		"description": "cout"
+	},
+	"vector": {
+		"prefix": "v",
+		"body": [
+			"vector<$1> $0",
+		],
+		"description": "vector"
+	},
+	"pair": {
+		"prefix": "p",
+		"body": [
+			"pair<$1, $2> $0",
+		],
+		"description": "pair"
+	},
+	"priority_queue small": {
+		"prefix": "pqs",
+		"body": [
+			"priority_queue<$1, vector<$1>, greater<$1>> $0",
+		],
+		"description": "priority_queue small"
+	},
+	"priority_queue large": {
+		"prefix": "pql",
+		"body": [
+			"priority_queue<$1> $0",
+		],
+		"description": "priority_queue large"
+	},
+	"all": {
+		"prefix": "al",
+		"body": [
+			"$1.begin(), $1.end()",
+		],
+		"description": "all"
+	},
+	"sort": {
+		"prefix": "so",
+		"body": [
+			"sort($1.begin(), $1.end());",
+		],
+		"description": "sort"
+	},
+	"mod_pow": {
+		"prefix": "mp",
+		"body": [
+			"ll mod_pow(ll a, ll n) {",
+		    "    if (n == 0) return 1;",
+			"    ll res = mod_pow(a, n/2);",
+			"    if (n % 2 == 1) return res * res % MOD * a % MOD;",
+			"    else return res * res % MOD;",
+			"}$0",
+		],
+		"description": "mod_pow"
+	},
+	"MOD": {
+		"prefix": "MOD",
+		"body": [
+			"const ll MOD = 998244353LL;$0",
+		],
+		"description": "MOD"
+	},
+	"lower_bound": {
+		"prefix": "lo",
+		"body": [
+			"lower_bound($1.begin(), $1.end(), $2);$0",
+		],
+		"description": "lower_bound"
+	},
+	"upper_bound": {
+		"prefix": "up",
+		"body": [
+			"upper_bound($1.begin(), $1.end(), $2);$0",
+		],
+		"description": "upper_bound"
+	},
+	"union_find": {
+		"prefix": "uf",
+		"body": [
+			"struct UnionFind {",
+			"    vector<int> par, siz;",
+			"",
+			"    UnionFind(int n) : par(n, -1), siz(n, 1) {}",
+			"",
+			"    int root(int x) {",
+			"        if (par[x] == -1) return x;",
+			"        else return par[x] = root(par[x]);",
+			"    }",
+			"",
+			"    bool issame(int x, int y) {",
+			"        return root(x) == root(y);",
+			"    }",
+			"",
+			"    bool unite(int x, int y) {",
+			"        x = root(x);",
+			"        y = root(y);",
+			"        if (x == y) return false;",
+			"        if (siz[x] < siz[y]) swap(x, y);",
+			"        par[y] = x;",
+			"        siz[x] += siz[y];",
+			"        return true;",
+			"    }",
+			"",
+			"    int size(int x) {",
+			"        return siz[root(x)];",
+			"    }",
+			"};"
+		],
+	},
+	"bit": {
+		"prefix": "bit",
+		"body": [
+			"struct BIT {",
+			"    int n;",
+			"    vector<ll> data;",
+			"",
+			"    BIT(int _n) {",
+			"        n = _n + 1;",
+			"        data.assign(n, 0);",
+			"    }",
+			"",
+			"    void add(int i, ll x) {",
+			"        // Add x to a[i] (0-indexed).",
+			"        for (int idx = i + 1; idx < n; idx += (idx & -idx)) {",
+			"            data[idx] += x;",
+			"        }",
+			"    }",
+			"",
+			"    ll sum(int i) {",
+			"        // compute sum of a[i] with i in [0, i)",
+			"        ll ans = 0;",
+			"        for (int idx = i; idx > 0; idx -= (idx & -idx)) {",
+			"            ans += data[idx];",
+			"        }",
+			"        return ans;",
+			"    }",
+			"",
+			"    ll sum(int a, int b) {",
+			"        // compute sum of a[i] with i in [a, b)",
+			"        return sum(b) - sum(a);",
+			"    }",
+			"};"
+		]
+	}
+}
