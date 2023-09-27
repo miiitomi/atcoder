@@ -4,7 +4,7 @@
 		{
             "type": "shell",
             "label": "g++ build active file",
-            "command": "g++",
+            "command": "/usr/bin/g++",
             "args": [
                 "-g",
                 "-O0",
