@@ -10,11 +10,7 @@ struct Edge {
     int to;
     ll w;
 
-    Edge(int _idx, int _to, int _w) {
-        idx = _idx;
-        to = _to;
-        w = _w;
-    }
+    Edge(int idx, int to, int w) : idx(idx), to(to), w(w) {}
 };
 
 

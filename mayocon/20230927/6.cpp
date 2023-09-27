@@ -6,10 +6,7 @@ struct Vertex {
     int par;
     int x;
 
-    Vertex(int _par, int _x) {
-        par = _par;
-        x = _x;
-    }
+    Vertex(int _par, int _x) : par(_par), x(_x) {}
 };
 
 int main() {
