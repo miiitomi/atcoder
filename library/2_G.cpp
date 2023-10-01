@@ -1,4 +1,4 @@
-// https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G
+// https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_G
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -25,32 +25,30 @@ struct LazySegmentTree {
 
     M M_operation(M a, M b) {
         // TODO: Set operation on M x M.
-        if (b == M_init) return a;
-        else return b;
+        return a + b;
     }
 
-    X X_M_operation(X x, M m) {
-        // TODO: Set operation on X x M
-        if (m == M_init) return x;
-        return x + m;
-    }
+    // X X_M_operation(X x, M m) {
+    //     // TODO: Set operation on X x M
+    //     if (m == M_init) return x;
+    //     return x + m;
+    // }
 
-    void eval(int k) {
+    void eval(int k, int l, int r) {
         if (lazy[k] == M_init) return;
         if (k < n - 1) {
             lazy[k * 2 + 1] = M_operation(lazy[k * 2 + 1], lazy[k]);
             lazy[k * 2 + 2] = M_operation(lazy[k * 2 + 2], lazy[k]);
         }
-        data[k] = X_M_operation(data[k], lazy[k]);
+        data[k] += lazy[k] * (r - l);
         lazy[k] = M_init;
     }
 
-
     void _update(int a, int b, M m, int k, int l, int r) {
-        eval(k);
+        eval(k, l, r);
         if (a <= l && r <= b) {
             lazy[k] = M_operation(lazy[k], m);
-            eval(k);
+            eval(k, l, r);
         } else if (a < r && l < b) {
             _update(a, b, m, k * 2 + 1, l, (l + r) / 2);
             _update(a, b, m, k * 2 + 2, (l + r) / 2, r);
@@ -64,9 +62,9 @@ struct LazySegmentTree {
     }
 
     X _sub_query(int a, int b, int k, int l, int r) {
-        eval(k);
+        eval(k, l, r);
         if (r <= a || b <= l) {
-            return 0;
+            return X_init;
         } else if (a <= l && r <= b) {
             return data[k];
         } else {
@@ -87,16 +85,14 @@ int main() {
     cin >> N >> Q;
 
     LazySegmentTree<ll, ll> lst(N);
-    for (int q = 0; q < Q; q++) {
-        int c, s, t, x;
+    for (int i = 0; i < Q; i++) {
+        ll c, s, t, x;
         cin >> c >> s >> t;
-        s--;
-        t--;
         if (c == 0) {
             cin >> x;
-            lst.add(s, t+1, x);
+            lst.update(s-1, t, x);
         } else {
-            cout << lst.sum(s, t+1) << endl;
+            cout << lst.query(s-1, t) << endl;
         }
     }
 }
