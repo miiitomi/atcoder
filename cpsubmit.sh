@@ -22,4 +22,4 @@ else
 fi
 
 # submit
-~/.local/bin/oj submit --yes ${url} ${file}
+oj submit --yes ${url} ${file}

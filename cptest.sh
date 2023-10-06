@@ -23,8 +23,8 @@ fi
 
 # make sample directory
 if [ ! -e ${test_dir} ]; then
-    ~/.local/bin/oj dl -d ${test_dir} ${url}
+    oj dl -d ${test_dir} ${url}
 fi
 
 # test
-g++ ${file} -std=c++14 -I ${ac_library_path} && ~/.local/bin/oj test -c "./a.out" -d ${test_dir}
+g++ ${file} -std=c++14 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}
