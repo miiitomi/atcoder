@@ -27,4 +27,4 @@ if [ ! -e ${test_dir} ]; then
 fi
 
 # test
-g++ ${file} -std=c++14 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}
+g++ ${file} -std=gnu++2b -O2 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}
