@@ -34,22 +34,12 @@ int main() {
     }
     sort(V.begin(), V.end(), cmp);
 
-    ll ans = -1;
-    for (int S = 0; S < (1 << N); S++) {
-        ll now = 0;
-        bool ok = true;
-        ll tmp = 0;
-        for (Task &v : V) {
-            if (!(S&(1 << v.id))) continue;
-            tmp += v.s;
-            if (now + v.c <= v.d) now += v.c;
-            else {
-                ok = false;
-                break;
-            }
+    vector<ll> dp(V[N-1].d+1, 0);
+    for (Task &t : V) {
+        for (int d = t.d; d >= 0; d--) {
+            if (d - t.c < 0) break;
+            dp[d] = max(dp[d], dp[d - t.c] + t.s);
         }
-        if (ok) ans = max(ans, tmp);
     }
-
-    cout << ans << endl;
+    cout << *max_element(dp.begin(), dp.end()) << endl;
 }
