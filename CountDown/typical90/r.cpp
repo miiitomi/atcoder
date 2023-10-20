@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+typedef long long ll;
 
 int T, L, X, Y, Q;
 
@@ -11,7 +12,7 @@ void solve() {
     double r = L / 2.0;
     double y = - r * cos(theta);
     double z = r + r * sin(theta);
-    double w = pow(X*X + pow(Y-y, 2.0), 0.5);
+    double w = pow(pow(X, 2.0) + pow(Y-y, 2.0), 0.5);
     cout << atan2(z, w) * 180.0 / M_PI << endl;
 }
 
