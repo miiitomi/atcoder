@@ -344,5 +344,25 @@
 			"};"
 		],
 		"description": "Lazy Segment Tree"
+	},
+	"mi": {
+		"prefix": "mi",
+		"body": [
+			"ll modinv(ll a) {",
+			"	// Check if a and MOD are coprime.",
+			"	ll b = MOD, u = 1, v = 0;",
+			"	while (b > 0) {",
+			"		ll t = a / b;",
+			"		a -= t * b;",
+			"		swap(a, b);",
+			"		u -= t * v;",
+			"		swap(u, v);",
+			"	}",
+			"	u %= MOD;",
+			"	if (u < 0) u += MOD;",
+			"	return u;",
+			"}"
+		],
+		"description": "ModInt"
 	}
 }
