@@ -2,11 +2,10 @@
 	"a": {
 		"prefix": "a",
 		"body": [
-			"#include <bits/stdc++.h>",
+			"$0#include <bits/stdc++.h>",
 			"using namespace std;",
 			"",
 			"int main() {",
-			"    $0",
 			"}",
 			"",
 		],
