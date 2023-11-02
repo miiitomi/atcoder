@@ -1,5 +1,5 @@
 {
-	"a": {
+	"atcoder": {
 		"prefix": "a",
 		"body": [
 			"$0#include <bits/stdc++.h>",
@@ -11,7 +11,7 @@
 		],
 		"description": ""
 	},
-	"c": {
+	"codeforces": {
 		"prefix": "c",
 		"body": [
 			"#include <bits/stdc++.h>",
@@ -215,7 +215,7 @@
 			"};"
 		]
 	},
-	"st": {
+	"segment tree": {
 		"prefix": "st",
 		"body": [
 			"template<typename T>",
@@ -261,7 +261,7 @@
 		],
 		"description": "Segment Tree"
 	},
-	"lst": {
+	"lazy segment tree": {
 		"prefix": "lst",
 		"body": [
 			"template<typename X, typename M>",
@@ -344,7 +344,7 @@
 		],
 		"description": "Lazy Segment Tree"
 	},
-	"mi": {
+	"mod inv": {
 		"prefix": "mi",
 		"body": [
 			"ll modinv(ll a) {",
@@ -364,7 +364,7 @@
 		],
 		"description": "ModInt"
 	},
-	"mfg": {
+	"max flow graph": {
 		"prefix": "mfg",
 		"body": [
 			"template<typename T>",
