@@ -54,32 +54,53 @@ void solve() {
     cin >> N;
     a0.resize(N);
     d0.resize(N);
-    for (int i = 0; i < N; i++) cin >> a0[i];
-    for (int i = 0; i < N; i++) cin >> d0[i];
-    c0.assign(1e+6 + 1, make_pair(-1, 0));
+    vector<int> v;
     for (int i = 0; i < N; i++) {
-        if (c0[a0[i]-1].second < d0[i]) {
-            c0[a0[i]-1] = make_pair(i, d0[i]);
-        }
+        cin >> a0[i];
+        v.push_back(a0[i]);
     }
-    for (int x = 1e+6; x > 0; x--) {
-        if (c0[x-1].second < c0[x].second) {
-            c0[x-1] = c0[x];
-        }
+    for (int i = 0; i < N; i++) {
+        cin >> d0[i];
+        v.push_back(d0[i]);
     }
 
     cin >> M;
     a1.resize(M);
     d1.resize(M);
-    for (int i = 0; i < M; i++) cin >> a1[i];
-    for (int i = 0; i < M; i++) cin >> d1[i];
-    c1.assign(1e+6 + 1, make_pair(-1, 0));
+    for (int i = 0; i < M; i++) {
+        cin >> a1[i];
+        v.push_back(a1[i]);
+    }
+    for (int i = 0; i < M; i++) {
+        cin >> d1[i];
+        v.push_back(d1[i]);
+    }
+
+    sort(v.begin(), v.end());
+    v.erase(unique(v.begin(), v.end()), v.end());
+    for (int i = 0; i < N; i++) a0[i] = distance(v.begin(), lower_bound(v.begin(), v.end(), a0[i])) + 1;
+    for (int i = 0; i < N; i++) d0[i] = distance(v.begin(), lower_bound(v.begin(), v.end(), d0[i])) + 1;
+    for (int i = 0; i < M; i++) a1[i] = distance(v.begin(), lower_bound(v.begin(), v.end(), a1[i])) + 1;
+    for (int i = 0; i < M; i++) d1[i] = distance(v.begin(), lower_bound(v.begin(), v.end(), d1[i])) + 1;
+
+    c0.assign(v.size() + 2, make_pair(-1, 0));
+    for (int i = 0; i < N; i++) {
+        if (c0[a0[i]-1].second < d0[i]) {
+            c0[a0[i]-1] = make_pair(i, d0[i]);
+        }
+    }
+    for (int x = v.size()+1; x > 0; x--) {
+        if (c0[x-1].second < c0[x].second) {
+            c0[x-1] = c0[x];
+        }
+    }
+    c1.assign(v.size() + 2, make_pair(-1, 0));
     for (int i = 0; i < M; i++) {
         if (c1[a1[i]-1].second < d1[i]) {
             c1[a1[i]-1] = make_pair(i, d1[i]);
         }
     }
-    for (int x = 1e+6; x > 0; x--) {
+    for (int x = v.size()+1; x > 0; x--) {
         if (c1[x-1].second < c1[x].second) {
             c1[x-1] = c1[x];
         }
