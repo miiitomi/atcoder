@@ -529,5 +529,16 @@
 			"};"
 		],
 		"decscription": "Minimum Cost Flow algorithm"
+	},
+	"grid": {
+		"prefix": "grid",
+		"body": [
+			"int H, W;",
+			"vector<int> dx{1, -1, 0, 0}, dy{0, 0, 1, -1};",
+			"bool is_in(int x, int y) {return 0 <= x && x < H && 0 <= y && y < W;}",
+			"int to_int(int x, int y) {return x*W + y;}",
+			"pair<int,int> to_xy(int i) {return make_pair(i/W, i%W);}"
+		],
+		"description": "Grid"
 	}
 }
