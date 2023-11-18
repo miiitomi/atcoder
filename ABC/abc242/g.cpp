@@ -1,10 +1,7 @@
-// https://atcoder.jp/contests/abc293/tasks/abc293_g
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
 
 vector<int> A;
-int max_a;
 
 template <typename T>
 struct Mo {
@@ -20,33 +17,33 @@ struct Mo {
 
     /* Update below! */
     vector<T> state;    // TODO: Set state variables.
-    T tmp = 0;    // TODO: set initial tmp answer.
+    T tmp = 0;    // TODO: Set initial tmp answer.
 
-    void add(int a) {
+    void _add(int a) {
+        // TODO: Set add function used in query().
         state[a]++;
-        T c = state[a];
-        if (c >= 3) tmp += (c-1)*(c-2)/2;
+        if (!(state[a] & 1)) tmp++;
     }
-    void remove(int a) {
-        T c = state[a];
+    void _remove(int a) {
+        // TODO: Set remove function used in query().
         state[a]--;
-        if (c >= 3) tmp -= (c-1)*(c-2)/2;
+        if (state[a] & 1) tmp--;
     }
-    void query(Query &q) {
+    void _query(Query &q) {
         while (right < q.r) {
             right++;
-            add(A[right]);
+            _add(A[right]);    // TODO: Update arg.
         }
         while (q.l < left) {
             left--;
-            add(A[left]);
+            _add(A[left]);    // TODO: Update arg.
         }
         while (left < q.l) {
-            remove(A[left]);
+            _remove(A[left]);    // TODO: Update arg.
             left++;
         }
         while (q.r < right) {
-            remove(A[right]);
+            _remove(A[right]);    // TODO: Update arg.
             right--;
         }
         ans[q.id] = tmp;
@@ -55,7 +52,7 @@ struct Mo {
         B = max<int>(1, 1.0 * N / max<double>(1.0, sqrt(Q * 2.0 / 3.0)));
         queries.assign(Q, {0, 0, 0});
         ans.assign(Q, 0);
-        state.assign(max_a + 1, 0);  // TODO: set state variable.
+        state.assign(N, 0);  // TODO: Set state variable.
     }
     /* Up to here! */
 
@@ -69,21 +66,20 @@ struct Mo {
             if (q1.l_ != q2.l_) return q1.l_ < q2.l_;
             return q1.r < q2.r;
         });
-        for (Query &q : queries) query(q);
+        for (Query &q : queries) _query(q);
     }
 };
 
 int main() {
     int N, Q;
-    cin >> N >> Q;
+    cin >> N;
     A.resize(N);
     for (int i = 0; i < N; i++) {
         cin >> A[i];
         A[i]--;
     }
-    max_a = *max_element(A.begin(), A.end());
-
-    Mo<ll> mo(N, Q);
+    cin >> Q;
+    Mo<int> mo(N, Q);
     for (int i = 0; i < Q; i++) {
         int l, r;
         cin >> l >> r;
@@ -91,9 +87,6 @@ int main() {
         r--;
         mo.add_query(i, l, r);
     }
-
     mo.run();
-    for (int i = 0; i < Q; i++) {
-        cout << mo.ans[i] << endl;
-    }
+    for (int i = 0; i < Q; i++) cout << mo.ans[i] << endl;
 }
