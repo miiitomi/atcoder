@@ -1,11 +1,5 @@
-// https://atcoder.jp/contests/abc193/tasks/abc193_f
 #include <bits/stdc++.h>
 using namespace std;
-
-int N;
-bool is_in(int x, int y) {return 0 <= x && x < N && 0 <= y && y < N;}
-vector<int> dx{0, 0, 1, -1}, dy{1, -1, 0, 0};
-int to_int(int x, int y) {return x*N + y;}
 
 template<typename T>
 struct MaxFlowGraph {
@@ -91,31 +85,24 @@ struct MaxFlowGraph {
 };
 
 int main() {
-    cin >> N;
-    vector<string> c(N);
-    for (int i = 0; i < N; i++) cin >> c[i];
-
-    int s = N*N, t = N*N+1;
-    MaxFlowGraph<int> mfg(N*N+2);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            bool white = ((i+j)%2 == 0);
-            int u = to_int(i, j);
-            if (white) {
-                if (c[i][j] == 'B') mfg.add_edge(s, u, 1e+6);
-                if (c[i][j] == 'W') mfg.add_edge(u, t, 1e+6);
-            } else {
-                if (c[i][j] == 'W') mfg.add_edge(s, u, 1e+6);
-                if (c[i][j] == 'B') mfg.add_edge(u, t, 1e+6);
-            }
-            for (int k = 0; k < 4; k++) {
-                int x = i + dx[k], y = j + dy[k];
-                if (!is_in(x, y)) continue;
-                int v = to_int(x, y);
-                mfg.add_edge(u, v, 1);
-            }
+    int N, M, ans = 0;
+    cin >> N >> M;
+    MaxFlowGraph<int> mfg(N+2);
+    for (int i = 1; i <= N; i++) {
+        int p;
+        cin >> p;
+        if (p >= 0) {
+            ans += p;
+            mfg.add_edge(0, i, p);
+        } else {
+            mfg.add_edge(i, N+1, abs(p));
         }
     }
+    while (M--) {
+        int a, b;
+        cin >> a >> b;
+        mfg.add_edge(a, b, 1e+6);
+    }
 
-    cout << 2*N*(N-1) - mfg.max_flow(s, t) << endl;
+    cout << ans - mfg.max_flow(0, N+1) << endl;
 }
