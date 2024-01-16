@@ -1,0 +1,10 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+    cout << "L";
+    while (N--) cout << "o";
+    cout << "ng" << endl;
+}
