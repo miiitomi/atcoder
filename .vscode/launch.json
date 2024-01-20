@@ -11,7 +11,7 @@
             "program": "${fileDirname}/${fileBasenameNoExtension}.out",
             "args": [],
             "cwd": "${fileDirname}",
-            "stdio": ["input.txt"],
+            "stdio": ["${fileDirname}/input.txt"],
             "initCommands":["settings set target.disable-aslr false"],
             "preLaunchTask": "clang++ build active file"
         }
