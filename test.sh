@@ -4,7 +4,7 @@ file=$3
 relative_file_dir_name=$4
 contest_name=${relative_file_dir_name##*/}
 test_dir=samples/${contest_name}/${problem_name}
-ac_library_path=~/kyopuro/atcoder/ac-library
+ac_library_path=/workspaces/atcoder/ac-library
 contest_type=`echo ${relative_file_dir_name%/*}`
 
 if [ ${contest_name} = tessoku-book ];
@@ -31,4 +31,4 @@ if [ ! -e ${test_dir} ]; then
 fi
 
 # test
-g++ ${file} -std=gnu++2b -O2 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}
+clang++ ${file} -std=c++20 -O2 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}

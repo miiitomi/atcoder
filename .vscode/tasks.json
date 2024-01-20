@@ -3,65 +3,42 @@
 	"tasks": [
 		{
             "type": "shell",
-            "label": "g++ build active file",
-            "command": "/usr/bin/g++",
+            "label": "clang++ build active file",
+            "command": "/usr/bin/clang++",
             "args": [
+                "${file}",
                 "-g",
                 "-O0",
-                "-std=c++14",
-                "${file}",
+                "-std=c++20",
                 "-I",
-                "~/kyopuro/atcoder/ac-library",
+                "/workspaces/atcoder/ac-library",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.out",
-            ],
-            "options": {
-                "cwd": "/usr/local/bin"
-            },
-            "problemMatcher": [
-                "$g++",
+                "${fileDirname}/${fileBasenameNoExtension}.out"
             ],
             "group": "build"
         },
 		{
-			"label": "test atcoder samples",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"type": "shell",
-			"command": "${workspaceFolder}/cptest.sh",
-			"args": [
+            "label": "submit",
+            "group": "build",
+            "type": "shell",
+            "command": "${workspaceFolder}/submit.sh",
+            "args": [
+				"${fileBasenameNoExtension}",
+				"${file}",
+				"${relativeFileDirname}"
+            ]
+        },
+        {
+            "label": "test",
+            "group": "build",
+            "type": "shell",
+            "command": "${workspaceFolder}/test.sh",
+            "args": [
 				"${fileBasenameNoExtension}",
 				"${fileExtname}",
 				"${file}",
 				"${relativeFileDirname}",
-			],
-			"problemMatcher": []
-		},
-		{
-            "label": "submit atcoder",
-            "group": "build",
-            "type": "shell",
-            "command": "${workspaceFolder}/cpsubmit.sh",
-            "args": [
-				"${fileBasenameNoExtension}",
-				"${file}",
-				"${relativeFileDirname}",
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "ahc test",
-            "group": "build",
-            "type": "shell",
-            "command": "${workspaceFolder}/ahctest.sh",
-            "args": [
-                "${fileBasenameNoExtension}",
-                "${file}",
-                "${fileDirname}",
-            ],
-            "problemMatcher": []
+            ]
         }
 	]
 }
