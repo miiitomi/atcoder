@@ -6,16 +6,3 @@ samples
 *.txt
 *.pdf
 c_cpp_properties.json
-Cargo.lock
-Cargo.toml
-AHC/ahc*/README.*
-AHC/ahc*/src/
-AHC/ahc*/target/
-*.html
-ac-library/
-bin/
-in/
-out/
-result/
-*.rs
-AHC/*/*.md
