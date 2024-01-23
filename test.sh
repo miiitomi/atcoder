@@ -31,7 +31,7 @@ if [ ! -e ${test_dir} ]; then
 fi
 
 # test
-clang++ ${file} -std=c++20 -O2 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}
+g++ ${file} -std=c++20 -O2 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}
 
 rm -rf samples/
 rm "./a.out"
