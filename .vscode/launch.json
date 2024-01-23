@@ -13,7 +13,7 @@
             "cwd": "${fileDirname}",
             "stdio": ["${fileDirname}/input.txt"],
             "initCommands":["settings set target.disable-aslr false"],
-            "preLaunchTask": "clang++ build active file"
+            "preLaunchTask": "g++ build active file"
         }
     ]
 }

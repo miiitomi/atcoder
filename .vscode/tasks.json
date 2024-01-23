@@ -3,15 +3,15 @@
 	"tasks": [
 		{
             "type": "shell",
-            "label": "clang++ build active file",
-            "command": "/usr/bin/clang++",
+            "label": "g++ build active file",
+            "command": "/usr/bin/g++",
             "args": [
                 "${file}",
                 "-g",
                 "-O0",
-                "-std=c++20",
+                "-std=c++23",
                 "-I",
-                "/workspaces/atcoder/ac-library",
+                "${workspaceFolder}/ac-library",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}.out"
             ],
