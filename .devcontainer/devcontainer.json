@@ -12,7 +12,6 @@
 		"vscode": {
 			"extensions": [
 				"ms-vscode.cpptools",
-				"ms-python.python",
 				"formulahendry.code-runner",
 				"vadimcn.vscode-lldb"
 			]
