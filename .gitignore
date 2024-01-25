@@ -5,3 +5,4 @@ samples
 *.dSYM
 *.txt
 *.pdf
+!requirements.txt
