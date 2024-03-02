@@ -1,5 +1,5 @@
-pwd = "/Users/miiitomi/kyopuro/atcoder/library"
-input_path = pwd+"/rerooting_tree.cpp"
+pwd = "/workspaces/atcoder/library"
+input_path = pwd+"/erasable_priority_queue.cpp"
 output_path = pwd+"/out.txt"
 
 def main():
