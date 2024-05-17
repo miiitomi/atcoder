@@ -1,5 +1,5 @@
 pwd = "/workspaces/atcoder/library"
-input_path = pwd+"/convex_hull.cpp"
+input_path = pwd+"/trie.cpp"
 output_path = pwd+"/out.txt"
 
 def main():
