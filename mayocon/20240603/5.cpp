@@ -8,18 +8,14 @@ void solve() {
     vector<int> A(K);
     for (int i = 0; i < K; i++) cin >> A[i];
 
-    vector<pair<int,int>> dp(N+1, {0, 0});
+    vector<int> dp(N+1, 0);
     for (int x = 1; x <= N; x++) {
         for (int a : A) {
-            if (a > x) continue;
-            if (dp[x].first < dp[x-a].second + a) {
-                dp[x].first = dp[x-a].second + a;
-                dp[x].second = dp[x-a].first;
-            }
+            if (x - a < 0) continue;
+            dp[x] = max(dp[x], a + (x - a - dp[x-a]));
         }
     }
-
-    cout << dp[N].first << "\n";
+    cout << dp[N] << "\n";
 }
 
 int main() {
