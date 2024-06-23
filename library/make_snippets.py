@@ -1,5 +1,5 @@
 pwd = "/workspaces/atcoder/library"
-input_path = pwd+"/trie.cpp"
+input_path = pwd+"/rolling_hash.cpp"
 output_path = pwd+"/out.txt"
 
 def main():
