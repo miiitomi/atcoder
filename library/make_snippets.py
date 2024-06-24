@@ -1,5 +1,5 @@
 pwd = "/workspaces/atcoder/library"
-input_path = pwd+"/rolling_hash.cpp"
+input_path = pwd+"/disjoint_sparse_table.cpp"
 output_path = pwd+"/out.txt"
 
 def main():
