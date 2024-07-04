@@ -1,15 +1,9 @@
-// https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G
-#include <bits/stdc++.h>
-using namespace std;
-typedef long long ll;
-
-template<typename X, typename M>
-struct LazySegmentTree {
+template<typename X, typename M> struct LazySegmentTree {
     int n;
     vector<X> data;
     vector<M> lazy;
-    X X_init = 0; // TODO: Set initial value of data X.
-    M M_init = 0; // TODO: Set initial value of act M.
+    X X_init =  // TODO: Set initial value of data X.
+    M M_init =  // TODO: Set initial value of act M.
 
     LazySegmentTree(int n_) {
         n = 1;
@@ -20,19 +14,26 @@ struct LazySegmentTree {
 
     X X_operation(X a, X b) {
         // TODO: Set operation on X x X. (e.g., min, max, +)
-        return a + b;
+        return
     }
 
     M M_operation(M a, M b) {
         // TODO: Set operation on M x M.
-        if (b == M_init) return a;
-        else return b;
+        return
     }
 
     X X_M_operation(X x, M m) {
         // TODO: Set operation on X x M
-        if (m == M_init) return x;
-        return x + m;
+        return
+    }
+
+    void initialize(int i, X x) {
+        i = n - 1 + i;
+        data[i] = x;
+        while (i > 0) {
+            i = (i - 1) / 2;
+            data[i] = X_operation(data[i*2 + 1], data[i*2 + 2]);
+        }
     }
 
     void eval(int k) {
@@ -44,7 +45,6 @@ struct LazySegmentTree {
         data[k] = X_M_operation(data[k], lazy[k]);
         lazy[k] = M_init;
     }
-
 
     void _update(int a, int b, M m, int k, int l, int r) {
         eval(k);
@@ -66,7 +66,7 @@ struct LazySegmentTree {
     X _sub_query(int a, int b, int k, int l, int r) {
         eval(k);
         if (r <= a || b <= l) {
-            return 0;
+            return X_init;
         } else if (a <= l && r <= b) {
             return data[k];
         } else {
@@ -81,22 +81,3 @@ struct LazySegmentTree {
         return _sub_query(a, b, 0, 0, n);
     }
 };
-
-int main() {
-    int N, Q;
-    cin >> N >> Q;
-
-    LazySegmentTree<ll, ll> lst(N);
-    for (int q = 0; q < Q; q++) {
-        int c, s, t, x;
-        cin >> c >> s >> t;
-        s--;
-        t--;
-        if (c == 0) {
-            cin >> x;
-            lst.add(s, t+1, x);
-        } else {
-            cout << lst.sum(s, t+1) << endl;
-        }
-    }
-}

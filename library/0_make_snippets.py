@@ -1,5 +1,5 @@
 pwd = "/workspaces/atcoder/library"
-input_path = pwd+"/disjoint_sparse_table.cpp"
+input_path = pwd+"/XXX.cpp"    # TODO: write file name
 output_path = pwd+"/out.txt"
 
 def main():
