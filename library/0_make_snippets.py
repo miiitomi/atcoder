@@ -1,6 +1,6 @@
 pwd = "/workspaces/atcoder/library"
-input_path = pwd+"/XXX.cpp"    # TODO: write file name
-output_path = pwd+"/out.txt"
+input_path = pwd+"/a.cpp"    # TODO: write file name
+output_path = pwd+"/01.txt"
 
 def main():
     with open(input_path, 'r') as fr:

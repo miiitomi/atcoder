@@ -2,11 +2,16 @@
 	"template": {
 		"prefix": "a",
 		"body": [
-			"#include <bits/stdc++.h>",
+			"$0#include <bits/stdc++.h>",
+			"#include <atcoder/all>",
 			"using namespace std;",
+			"using namespace atcoder;",
+			"using ll = long long;",
+			"using mint = modint998244353;",
+			"const ll INF = 2e+18;",
+			"const ll MOD = 998244353;",
 			"",
 			"void solve() {",
-			"    $0",
 			"}",
 			"",
 			"int main() {",
@@ -20,29 +25,6 @@
 			""
 		],
 		"description": ""
-	},
-	"ACL": {
-		"prefix": "acl",
-		"body": [
-			"#include <atcoder/all>",
-			"using namespace atcoder;",
-			"using mint = modint998244353;"
-		],
-		"description": "AtCoder Library"
-	},
-	"long long": {
-		"prefix": "ll",
-		"body": [
-			"using ll = long long;",
-		],
-		"description": "long long"
-	},
-	"unsigned long long": {
-		"prefix": "ull",
-		"body": [
-			"using ull = unsigned long long;",
-		],
-		"description": "unsigned long long"
 	},
 	"priority_queue large": {
 		"prefix": "pql",
@@ -69,13 +51,6 @@
 			"}",
 		],
 		"description": "mod_pow"
-	},
-	"MOD": {
-		"prefix": "mod",
-		"body": [
-			"const ll MOD = 998244353;",
-		],
-		"description": "MOD"
 	},
 	"Union Find": {
 		"prefix": "uf",
