@@ -25,7 +25,7 @@ void solve() {
             if (!(B[i] & (1LL << k))) b0[i] = 1;
         }
 
-        vector<ll> c0 = convolution_ll(a0, b0);
+        vector<ll> c0 = convolution(a0, b0);
         for (int i = 0; i < N; i++) {
             C[i] += (1LL << k) * (N - c0[N-1+i]);
         }
