@@ -39,6 +39,29 @@
 				"${file}",
 				"${relativeFileDirname}",
             ]
+        },
+        {
+            "label": "test with error",
+            "group": "build",
+            "type": "shell",
+            "command": "${workspaceFolder}/test_with_error.sh",
+            "args": [
+				"${fileBasenameNoExtension}",
+				"${fileExtname}",
+				"${file}",
+				"${relativeFileDirname}",
+            ]
+        },
+        {
+            "label": "random test",
+            "group": "build",
+            "type": "shell",
+            "command": "${workspaceFolder}/random_test.sh",
+            "args": [
+				"${fileBasenameNoExtension}",
+				"${file}",
+				"${relativeFileDirname}",
+            ]
         }
 	]
 }

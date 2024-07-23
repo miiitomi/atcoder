@@ -913,5 +913,17 @@
             "};"
         ],
         "description": "cumulative sum"
+    },
+    "random": {
+        "prefix": "r",
+        "body": [
+            "// random management",
+            "random_device seed_gen;",
+            "mt19937_64 engine(seed_gen());",
+            "int uniform_int(int l, int r) {uniform_int_distribution<int> dist(l, r);return dist(engine);}",
+            "double uniform_double(double l, double r) {return l + (r-l)*((uniform_int(0, INF)+0.0)/INF);}",
+            "",
+        ],
+        "description": "random management"
     }
 }

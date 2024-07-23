@@ -6,3 +6,7 @@ samples
 *.txt
 *.pdf
 !requirements.txt
+*.in
+*test*/
+*_naive.cpp
+*_generate.cpp
