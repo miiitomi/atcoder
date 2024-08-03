@@ -2,5 +2,9 @@
     "code-runner.executorMap": {
         "cpp": "cd $dir && g++ $fileName -std=gnu++23 -Wall -Wextra -O2 -I $workspaceRoot/ac-library && ./a.out < input.txt && rm ./a.out",
         "python": "cd $dir && python3 -u $fileName < input.txt"
+    },
+    "files.associations": {
+        "*.tcc": "cpp",
+        "iostream": "cpp"
     }
 }
