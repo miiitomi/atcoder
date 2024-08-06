@@ -8,6 +8,8 @@
         "iostream": "cpp",
         "iterator": "cpp",
         "random": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "all": "cpp",
+        "ostream": "cpp"
     }
 }
