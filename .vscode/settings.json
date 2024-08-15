@@ -10,6 +10,7 @@
         "random": "cpp",
         "vector": "cpp",
         "all": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "tuple": "cpp"
     }
 }
