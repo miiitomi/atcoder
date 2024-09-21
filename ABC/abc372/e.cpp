@@ -39,8 +39,8 @@ struct UnionFind {
 void solve() {
     ll N, Q;
     cin >> N >> Q;
-    vector<set<ll>> st(N);
-    for (ll i = 0; i < N; i++) st[i].insert(i);
+    vector<vector<ll>> st(N);
+    for (ll i = 0; i < N; i++) st[i].push_back(i);
     UnionFind uf(N);
     while (Q--) {
         ll t;
@@ -55,9 +55,12 @@ void solve() {
             uf.unite(u, v);
             ll r = uf.root(u);
             if (r == v) swap(u, v);
-            if ((int)st[u].size() < (int)st[v].size()) swap(st[u], st[v]);
-            for (ll x : st[v]) st[u].insert(x);
-            st[v] = {};
+            while (!st[v].empty()) {
+                st[u].push_back(st[v].back());
+                st[v].pop_back();
+            }
+            sort(st[u].begin(), st[u].end(), [](const ll l, const ll r) {return l > r;});
+            while ((int)st[u].size() > 10) st[u].pop_back();
         } else {
             ll v, k;
             cin >> v >> k;
@@ -68,10 +71,7 @@ void solve() {
                 continue;
             }
             k--;
-            auto iter = st[v].end();
-            iter--;
-            while (k--) iter--;
-            cout << 1 + *iter << "\n";
+            cout << st[v][k]+1 << "\n";
         }
     }
 }

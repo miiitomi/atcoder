@@ -14,7 +14,7 @@ void solve() {
     cin >> S;
     set<ll> st;
     for (int i = 0; i < (int)S.size()-2; i++) {
-        if (S[i] == 'A' && S[i+1] == 'B' && S[i+2] == 'C') st.insert(i);
+        if (S.substr(i, 3) == "ABC") st.insert(i);
     }
     while (Q--) {
         ll x;
@@ -24,7 +24,7 @@ void solve() {
         S[x] = c;
         for (int i = max(0LL, x-2); i <= x; i++) {
             if (st.contains(i)) st.erase(i);
-            if (S[i] == 'A' && S[i+1] == 'B' && S[i+2] == 'C') st.insert(i);
+            if (S.substr(i, 3) == "ABC") st.insert(i);
         }
         cout << st.size() << "\n";
     }
