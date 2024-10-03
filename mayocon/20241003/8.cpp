@@ -8,13 +8,18 @@ using mint = modint998244353;
 const ll INF = 2e+18;
 const ll MOD = 998244353;
 
-vector<int> dx{0, 0, 1, -1}, dy{1, -1, 0, 0};
+void func(vector<ll> &A, vector<ll> &X) {
+    for (ll &a : A) {
+        a = distance(X.begin(), lower_bound(X.begin(), X.end(), a));
+    }
+}
 
 void solve() {
     ll N, M;
     cin >> N >> M;
-    vector<ll> X{-INF, 0, INF}, Y{-INF, 0, INF};
     vector<ll> A(N), B(N), C(N), D(M), E(M), F(M);
+    vector<int> dx{1, 0, -1, 0}, dy{0, -1, 0, 1};
+    vector<ll> X{-INF, 0, INF}, Y{-INF, 0, INF};
     for (int i = 0; i < N; i++) {
         cin >> A[i] >> B[i] >> C[i];
         X.push_back(A[i]);
@@ -28,66 +33,48 @@ void solve() {
         Y.push_back(F[i]);
     }
     sort(X.begin(), X.end());
-    sort(Y.begin(), Y.end());
     X.erase(unique(X.begin(), X.end()), X.end());
+    sort(Y.begin(), Y.end());
     Y.erase(unique(Y.begin(), Y.end()), Y.end());
-    vector<vector<bool>> S(X.size(), vector<bool>(Y.size(), true)), T(X.size(), vector<bool>(Y.size(), true));
-    for (int i = 0; i < max(N, M); i++) {
-        if (i < N) {
-            A[i] = distance(X.begin(), lower_bound(X.begin(), X.end(), A[i]));
-            B[i] = distance(X.begin(), lower_bound(X.begin(), X.end(), B[i]));
-            C[i] = distance(Y.begin(), lower_bound(Y.begin(), Y.end(), C[i]));
-            for (int j = A[i]; j < B[i]; j++) T[j][C[i]-1] = false;
-        }
-        if (i < M) {
-            D[i] = distance(X.begin(), lower_bound(X.begin(), X.end(), D[i]));
-            E[i] = distance(Y.begin(), lower_bound(Y.begin(), Y.end(), E[i]));
-            F[i] = distance(Y.begin(), lower_bound(Y.begin(), Y.end(), F[i]));
-            for (int j = E[i]; j < F[i]; j++) S[D[i]-1][j] = false;
+    func(A, X);
+    func(B, X);
+    func(C, Y);
+    func(D, X);
+    func(E, Y);
+    func(F, Y);
+    vector<vector<vector<bool>>> TO(4, vector<vector<bool>>((int)X.size(), vector<bool>((int)Y.size(), true)));
+    for (int i = 0; i < N; i++) {
+        for (int x = A[i]; x < B[i]; x++) {
+            TO[3][x][C[i]-1] = false;
+            TO[1][x][C[i]] = false;
         }
     }
+    for (int i = 0; i < M; i++) {
+        for (int y = E[i]; y < F[i]; y++) {
+            TO[0][D[i]-1][y] = false;
+            TO[2][D[i]][y] = false;
+        }
+    }
+
     vector<vector<bool>> dp(X.size(), vector<bool>(Y.size(), false));
-    dp[distance(X.begin(), lower_bound(X.begin(), X.end(), 0))][distance(Y.begin(), lower_bound(Y.begin(), Y.end(), 0))] = true;
+    int s = distance(X.begin(), lower_bound(X.begin(), X.end(), 0));
+    int t = distance(Y.begin(), lower_bound(Y.begin(), Y.end(), 0));
+    dp[s][t] = true;
     queue<pair<int,int>> Q;
-    Q.push({(int)distance(X.begin(), lower_bound(X.begin(), X.end(), 0)), (int)distance(Y.begin(), lower_bound(Y.begin(), Y.end(), 0))});
+    Q.push({s, t});
     while (!Q.empty()) {
         auto [x, y] = Q.front();
         Q.pop();
-        if (S[x][y] && !dp[x+1][y]) {
-            int r = x+1, c = y;
-            if (r == (int)X.size()-1) {
-                cout << "INF\n";
-                return;
+        for (int k = 0; k < 4; k++) {
+            if (!dp[x+dx[k]][y+dy[k]] && TO[k][x][y]) {
+                int a = x + dx[k], b = y + dy[k];
+                if (a == 0 || a == (int)X.size()-1 || b == 0 || b == (int)Y.size()) {
+                    cout << "INF\n";
+                    return;
+                }
+                dp[a][b] = true;
+                Q.push({a, b});
             }
-            dp[r][c] = true;
-            Q.push({r, c});
-        }
-        if (S[x-1][y] && !dp[x-1][y]) {
-            int r = x-1, c = y;
-            if (r == 0) {
-                cout << "INF\n";
-                return;
-            }
-            dp[r][c] = true;
-            Q.push({r, c});
-        }
-        if (T[x][y] && !dp[x][y+1]) {
-            int r = x, c = y+1;
-            if (c == (int)Y.size()-1) {
-                cout << "INF\n";
-                return;
-            }
-            dp[r][c] = true;
-            Q.push({r, c});
-        }
-        if (T[x][y-1] && !dp[x][y-1]) {
-            int r = x, c = y-1;
-            if (c == 0) {
-                cout << "INF\n";
-                return;
-            }
-            dp[r][c] = true;
-            Q.push({r, c});
         }
     }
 
