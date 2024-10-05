@@ -1,5 +1,5 @@
 pwd = "/workspaces/atcoder/library"
-input_path = pwd+"/a.cpp"    # TODO: write file name
+input_path = pwd+"/two_dimensional_cumulated_sum.cpp"    # TODO: write file name
 output_path = pwd+"/01.txt"
 
 def main():
