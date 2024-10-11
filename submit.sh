@@ -21,6 +21,10 @@ elif [ ${contest_type} = mosoonv ];
 then
     url=`head -n 1 ${file}`
     url=${url:3}
+elif [ ${contest_type} = miiitomi ];
+then
+    url=`head -n 1 ${file}`
+    url=${url:3}
 else
     url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_${problem_name}
 fi

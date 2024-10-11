@@ -11,6 +11,7 @@
         "vector": "cpp",
         "all": "cpp",
         "ostream": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "string": "cpp"
     }
 }
