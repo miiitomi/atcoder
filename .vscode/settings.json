@@ -12,6 +12,7 @@
         "all": "cpp",
         "ostream": "cpp",
         "tuple": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "deque": "cpp"
     }
 }
