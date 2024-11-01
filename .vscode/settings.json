@@ -13,6 +13,7 @@
         "ostream": "cpp",
         "tuple": "cpp",
         "string": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "iomanip": "cpp"
     }
 }
