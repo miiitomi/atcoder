@@ -13,7 +13,7 @@ then
 elif [ ${contest_name} = math-and-algorithm ];
 then
     url=https://atcoder.jp/contests/math-and-algorithm/tasks/math_and_algorithm_${problem_name}
-elif [ ${contest_type} = mayocon ] || [ ${contest_type} = mosoonv ] || [ ${contest_type} = miiitomi ] || [ ${contest_type} = typical90 ];
+elif [ ${contest_type} = mayocon ] || [ ${contest_type} = mosoonv ] || [ ${contest_type} = miiitomi ] || [ ${contest_type} = typical90 ] || [ ${contest_type} = PAST ];
 then
     url=`head -n 1 ${file}`
     url=${url:3}

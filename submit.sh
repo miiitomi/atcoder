@@ -13,7 +13,7 @@ then
 elif [ ${contest_name:0:3} = ahc ];
 then
     url=https://atcoder.jp/contests/${contest_name}/tasks/${contest_name}_a
-elif [ ${contest_type} = mayocon ] || [ ${contest_type} = mosoonv ] || [ ${contest_type} = miiitomi ] || [ ${contest_type} = typical90 ];
+elif [ ${contest_type} = mayocon ] || [ ${contest_type} = mosoonv ] || [ ${contest_type} = miiitomi ] || [ ${contest_type} = typical90 ] || [ ${contest_type} = PAST ];
 then
     url=`head -n 1 ${file}`
     url=${url:3}
