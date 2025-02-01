@@ -4,7 +4,7 @@
 		{
             "type": "shell",
             "label": "g++ build active file",
-            "command": "/usr/bin/g++",
+            "command": "/opt/homebrew/bin/g++",
             "args": [
                 "${file}",
                 "-g",
