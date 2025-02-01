@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}",
-                "${workspaceFolder}/ac-library/"
+                "${workspaceFolder}/ac-library/",
+                "/opt/homebrew/Cellar/boost/1.87.0/include/"
             ],
             "defines": [],
             "compilerPath": "/opt/homebrew/bin/g++",

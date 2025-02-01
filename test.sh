@@ -27,7 +27,7 @@ if [ ! -e ${test_dir} ]; then
 fi
 
 # test
-g++ ${file} -std=gnu++23 -Wall -Wextra -O2 -I ${ac_library_path} && oj test -c "./a.out" -d ${test_dir}
+g++ ${file} -std=gnu++23 -Wall -Wextra -O2 -I ${ac_library_path} -I /opt/homebrew/Cellar/boost/1.87.0/include/ && oj test -c "./a.out" -d ${test_dir}
 
 rm -rf samples/
 rm "./a.out"

@@ -12,6 +12,8 @@
                 "-std=gnu++23",
                 "-I",
                 "${workspaceFolder}/ac-library",
+                "-I",
+                "/opt/homebrew/Cellar/boost/1.87.0/include/",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}.out"
             ],
