@@ -3,17 +3,15 @@
 	"tasks": [
 		{
             "type": "shell",
-            "label": "g++ build active file",
-            "command": "/opt/homebrew/bin/g++",
+            "label": "clang++ build active file",
+            "command": "/usr/bin/clang++",
             "args": [
                 "${file}",
                 "-g",
                 "-O0",
-                "-std=gnu++23",
+                "-std=gnu++20",
                 "-I",
                 "${workspaceFolder}/ac-library",
-                "-I",
-                "/opt/homebrew/Cellar/boost/1.87.0/include/",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}.out"
             ],

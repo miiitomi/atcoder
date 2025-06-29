@@ -14,11 +14,11 @@
             "initCommands": [
                 "settings set target.disable-aslr false"
             ],
-            "preLaunchTask": "g++ build active file"
+            "preLaunchTask": "clang++ build active file"
         },
         {
             "name": "Python debug",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",

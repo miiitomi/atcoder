@@ -1,6 +1,6 @@
 {
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++ $fileName -std=gnu++23 -Wall -Wextra -O2 -I $workspaceRoot/ac-library -I /opt/homebrew/Cellar/boost/1.87.0/include/ && ./a.out < input.txt && rm ./a.out",
+        "cpp": "cd $dir && g++ $fileName -std=gnu++20 -Wall -Wextra -O2 -I $workspaceRoot/ac-library -I /opt/homebrew/Cellar/boost/1.87.0/include/ && ./a.out < input.txt && rm ./a.out",
         "python": "cd $dir && python3 -u $fileName < input.txt"
     },
     "files.associations": {
