@@ -4,6 +4,7 @@
         "python": "cd $dir && python3 -u $fileName < input.txt"
     },
     "files.associations": {
+        "*.cpp": "cpp",
         "*.tcc": "cpp",
         "iostream": "cpp",
         "iterator": "cpp",
@@ -16,6 +17,7 @@
         "deque": "cpp",
         "iomanip": "cpp",
         "chrono": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "unordered_set": "cpp"
     }
 }
