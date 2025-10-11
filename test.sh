@@ -23,11 +23,11 @@ fi
 
 # make sample directory
 if [ ! -e ${test_dir} ]; then
-    oj dl -d ${test_dir} ${url}
+    /Users/miiitomi/kyopuro/atcoder/.venv/bin/oj dl -d ${test_dir} ${url}
 fi
 
 # test
-g++ ${file} -std=gnu++20 -Wall -Wextra -O2 -I ${ac_library_path} -I /opt/homebrew/Cellar/boost/1.87.0/include/ && oj test -c "./a.out" -d ${test_dir}
+g++ ${file} -std=gnu++20 -Wall -Wextra -O2 -I ${ac_library_path} -I /opt/homebrew/Cellar/boost/1.87.0/include/ && /Users/miiitomi/kyopuro/atcoder/.venv/bin/oj test -c "./a.out" -d ${test_dir}
 
 rm -rf samples/
 rm "./a.out"
