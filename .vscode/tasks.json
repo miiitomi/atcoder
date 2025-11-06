@@ -12,6 +12,8 @@
                 "-std=gnu++20",
                 "-I",
                 "${workspaceFolder}/ac-library",
+                "-I",
+                "${workspaceFolder}/include",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}.out"
             ],
